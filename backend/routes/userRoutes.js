@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const UserController = require('../controllers/userController');
 const { authenticateUser } = require('../middleware/auth');
+const VoucherModel = require('../models/voucherModel');
 const {
   validateUserRegistration,
   validateUserLogin,
@@ -21,9 +22,10 @@ router.post('/verify-reset-code', validateResetCode, UserController.verifyResetC
 router.get('/check-admin', authenticateUser, UserController.checkAdmin);
 router.get('/credits/:userId', authenticateUser, UserController.getCredits);
 router.get('/credit-history/:userId', authenticateUser, UserController.getCreditHistory);
-router.post('/purchase-voucher', authenticateUser, validateVoucherPurchase, UserController.purchaseVoucher);
 router.post('/add-survey-transaction', authenticateUser, UserController.addSurveyTransaction);
 router.get('/profile/:userId', authenticateUser, UserController.getProfile);
 router.put('/profile/:userId', authenticateUser, UserController.updateProfile);
+router.get('/vouchers/:userId', authenticateUser, UserController.getUserVouchers);
+router.post('/purchase-voucher', authenticateUser, UserController.purchaseVoucher);
 
 module.exports = router;

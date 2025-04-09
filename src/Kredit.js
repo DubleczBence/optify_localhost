@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, Typography, Button, Grid, Box, useMediaQuery } from "@mui/material";
+import { Card, CardContent, Typography, Button, Grid, Box, useMediaQuery, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Slide } from "@mui/material";
 import MuiCard from '@mui/material/Card';
 import { styled, useTheme } from '@mui/material/styles';
 import { get, post } from './services/apiService';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const creditOptions = [
   { amount: 500, price: "10 000 Ft" },
@@ -44,6 +48,10 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
   const isNarrow = useMediaQuery('(max-width:1700px) and (min-width:901px)');
 
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [selectedCreditAmount, setSelectedCreditAmount] = useState(null);
+  const [purchaseType, setPurchaseType] = useState('');
+
   useEffect(() => {
     const fetchCreditHistory = async () => {
       try {
@@ -64,7 +72,13 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
     fetchCreditHistory();
   }, []);
 
-  const handlePurchase = async (amount) => {
+  const handlePurchase = async (amount, type) => {
+    setSelectedCreditAmount(amount);
+    setPurchaseType(type);
+    setConfirmDialogOpen(true);
+  };
+
+  const confirmPurchase = async () => {
     try {
       const companyId = localStorage.getItem('cegId');
       if (!companyId) {
@@ -73,7 +87,7 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
       }
   
       const data = await post('/companies/purchase-credits', { 
-        packageAmount: amount, 
+        packageAmount: selectedCreditAmount, 
         companyId: parseInt(companyId) 
       });
   
@@ -86,8 +100,12 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
         console.error('Expected array but got:', historyData);
         setCreditHistory([]); // Üres tömböt állítunk be, ha nem tömböt kaptunk
       }
+      
+      // Close the dialog
+      setConfirmDialogOpen(false);
     } catch (error) {
       console.error('Error purchasing credits:', error);
+      setConfirmDialogOpen(false);
     }
   };
 
@@ -341,7 +359,7 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
                         <Button 
                           variant="contained" 
                           size="small" 
-                          onClick={() => handlePurchase(option.amount)} 
+                          onClick={() => handlePurchase(option.amount, category)} 
                           sx={{ mt: 'auto', fontSize: '0.75rem', padding: '4px 8px', mb: 1 }}
                         >
                           Vásárlás
@@ -355,6 +373,24 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
           ))}
         </StyledCard>
       </Box>
+      <Dialog
+        open={confirmDialogOpen}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={() => setConfirmDialogOpen(false)}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>{"Kredit vásárlás megerősítése"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Biztosan meg szeretné vásárolni a {selectedCreditAmount} kredit csomagot ({purchaseType})?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setConfirmDialogOpen(false)}>Mégse</Button>
+          <Button onClick={confirmPurchase}>Vásárlás</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

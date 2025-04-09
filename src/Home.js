@@ -49,6 +49,7 @@ import { useMediaQuery } from '@mui/material';
 import { useSpring, animated } from 'react-spring';
 import CircularProgress from '@mui/material/CircularProgress';
 import Backdrop from '@mui/material/Backdrop';
+import { voucherOptions } from './userKredit';
 
 
 
@@ -80,7 +81,10 @@ const Card = styled(MuiCard)(({ theme }) => ({
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   margin: 'auto',
-  overflow: 'auto',
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(4),
+  overflow: 'auto !important',
+  maxHeight: '70vh',
   backgroundColor: theme.palette.mode === 'light' 
     ? 'rgba(255, 255, 255, 0.55) !important'
     : 'rgba(0, 0, 5, 0.55) !important',
@@ -107,16 +111,22 @@ const Card = styled(MuiCard)(({ theme }) => ({
   },
 }));
 
+
 const UserContainer = styled(Stack)(({ theme }) => ({
-  height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
-  minHeight: '100%',
+  height: '100vh', // Set to 100vh to take full viewport height
+  width: '100%',
   padding: theme.spacing(2),
+  overflowY: 'auto !important', // Force vertical scrolling
+  overflowX: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+  position: 'relative', // Ensure proper stacking context
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
   },
   '&::before': {
     content: '""',
-    position: 'absolute',
+    position: 'fixed', // Change to fixed so it doesn't affect scrolling
     inset: 0,
     backgroundColor: theme.palette.mode === 'light' 
       ? 'rgba(255, 255, 255, 0.2)'
@@ -269,7 +279,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-const ProfileDialog = ({ open, onClose, userData, onSave }) => {
+const ProfileDialog = ({ open, onClose, userData, onSave, userVouchers }) => {
   const [formData, setFormData] = useState({
     name: '',
     regio: '',
@@ -439,6 +449,77 @@ const ProfileDialog = ({ open, onClose, userData, onSave }) => {
               style: { transform: 'translate(0, -17px) scale(0.75)' }
             }}
           />
+          
+          {/* Kuponok megjelenítése */}
+          {userVouchers && userVouchers.length > 0 && (
+            <Box>
+            <Typography variant="h6" sx={{ mb: 2 }}>Vásárolt kuponok</Typography>
+            <Box sx={{ 
+              display: 'flex', 
+              flexWrap: 'wrap', 
+              gap: 2,
+              justifyContent: 'flex-start'
+            }}>
+              {userVouchers.map((voucher) => {
+                // Kép kiválasztása a kupon neve alapján
+                let imageName = 'default.png';
+                
+                // Keressük meg a megfelelő képet a voucherOptions alapján
+                voucherOptions.forEach(category => {
+                  category.items.forEach(item => {
+                    if (item.name === voucher.name || 
+                        voucher.name.includes(item.name) || 
+                        item.name.includes(voucher.name)) {
+                      imageName = item.image;
+                    }
+                  });
+                });
+                
+                return (
+                  <Box 
+                    key={voucher.id} 
+                    sx={{ 
+                      width: '80px', 
+                      height: '80px', 
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                      position: 'relative'
+                    }}
+                  >
+                    <img 
+                      src={`/kepek/${imageName}`} 
+                      alt={voucher.name}
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover' 
+                      }}
+                    />
+                    <Tooltip title={`${voucher.name} - ${voucher.credit_cost} kredit`}>
+                      <Box sx={{ 
+                        position: 'absolute', 
+                        bottom: 0, 
+                        left: 0, 
+                        right: 0,
+                        backgroundColor: 'rgba(0,0,0,0.6)',
+                        color: 'white',
+                        padding: '4px',
+                        fontSize: '10px',
+                        textAlign: 'center',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}>
+                        {voucher.name}
+                      </Box>
+                    </Tooltip>
+                  </Box>
+                );
+              })}
+            </Box>
+          </Box>
+          )}
         </Box>
       </DialogContent>
       <DialogActions>
@@ -475,6 +556,12 @@ const Home = ({ onSignOut, onSendData }) => {
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const isUnder1400 = useMediaQuery('(max-width:1400px)');
   const [submittingSurvey, setSubmittingSurvey] = useState(false);
+
+  const [confirmPurchaseOpen, setConfirmPurchaseOpen] = useState(false);
+  const [selectedVoucher, setSelectedVoucher] = useState(null);
+  // eslint-disable-next-line no-unused-vars
+  const [purchaseSuccess, setPurchaseSuccess] = useState(false);
+  const [userVouchers, setUserVouchers] = useState([]);
   
   const [answers, setAnswers] = useState({});
 
@@ -490,6 +577,19 @@ const Home = ({ onSignOut, onSendData }) => {
       setShowUserCreditPage(true);
     }
   };
+
+  const fetchCreditHistory = useCallback(async () => {
+    try {
+      if (!userId) return;
+      
+      // Csak naplózzuk, hogy frissítettük a kredit előzményeket
+      console.log('Refreshing credit history for user:', userId);
+      await get(`/users/credit-history/${userId}`);
+    console.log('Credit history refreshed');
+  } catch (error) {
+    console.error('Error fetching credit history:', error);
+  }
+}, [userId]);
 
 
   const fetchUserProfile = useCallback(async () => {
@@ -515,6 +615,77 @@ const Home = ({ onSignOut, onSendData }) => {
       });
     }
   }, [userId]);
+
+  const handleVoucherSelect = (voucher) => {
+    setSelectedVoucher(voucher);
+    setConfirmPurchaseOpen(true);
+  };
+
+  const confirmVoucherPurchase = async () => {
+    if (!selectedVoucher) return;
+    
+    try {
+      // Kupon vásárlás API hívás
+      const response = await post('/users/purchase-voucher', {
+        userId: userId,
+        voucherName: selectedVoucher.name,
+        creditCost: selectedVoucher.creditCost
+      });
+      
+      if (response.message && response.message.includes('success')) {
+        // Frissítsük a kredit egyenleget
+        setCredits(response.currentCredits || credits);
+        fetchCredits();
+
+        fetchCreditHistory();
+        
+        // Sikeres vásárlás után
+        setPurchaseSuccess(true);
+        fetchUserVouchers();
+        
+        // Zárjuk be a megerősítő dialógust
+        setConfirmPurchaseOpen(false);
+        
+        // 5 másodperc után rejtsük el a sikeres vásárlás üzenetet
+        setTimeout(() => {
+          setPurchaseSuccess(false);
+        }, 5000);
+        
+        // Snackbar értesítés
+        setSnackbar({
+          open: true,
+          message: 'Sikeres kupon vásárlás! A kuponjait a profil menüben tekintheti meg.',
+          severity: 'success'
+        });
+      } else {
+        throw new Error(response.message || 'Sikertelen vásárlás');
+      }
+    } catch (error) {
+      console.error('Error purchasing voucher:', error);
+      setSnackbar({
+        open: true,
+        message: 'Hiba történt a kupon vásárlása során: ' + (error.message || 'Ismeretlen hiba'),
+        severity: 'error'
+      });
+      setConfirmPurchaseOpen(false);
+    }
+  };
+
+  // Kuponok lekérése a felhasználóhoz
+  const fetchUserVouchers = useCallback(async () => {
+    try {
+      if (!userId) return;
+      
+      const data = await get(`/users/vouchers/${userId}`);
+      setUserVouchers(data.vouchers || []);
+    } catch (error) {
+      console.error('Error fetching user vouchers:', error);
+    }
+  }, [userId]);
+
+  useEffect(() => {
+    fetchUserVouchers();
+  }, [fetchUserVouchers]);
   
   const handleSaveUserProfile = async (formData) => {
     try {
@@ -769,6 +940,9 @@ const [open, setOpen] = React.useState(false);
       await Promise.all([postPromise, delayPromise]);
     
       await fetchCredits();
+      // Frissítsük a kredit előzményeket is
+      await fetchCreditHistory();
+      
       setSubmittingSurvey(false);
       handleCloseSurvey();
     } catch (error) {
@@ -1012,18 +1186,16 @@ const [open, setOpen] = React.useState(false);
   </Box>
 </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: { xs: 0.5, sm: 1 }, marginBottom: { xs: 0.5, sm: 1 }}}>
   <SimpleBottomNavigation 
     value={value}
     onChange={handleNavigationChange}
     sx={{
-      mt: 2,
-      mb: 2,
       backgroundColor: 'transparent',
       boxShadow: theme.shadows[1],
-      width: '18%',
+      width: { xs: '50%', sm: '18%' },
       margin: '0 auto',
-      position: 'fixed',
+      position: 'relative',
       top: '80px',
       left: '50%',
       transform: 'translateX(-50%)',
@@ -1032,24 +1204,40 @@ const [open, setOpen] = React.useState(false);
   />
 </Box>
 
-      {!showUserCreditPage && !showSurvey && (
-          <Card
-            variant="outlined"
-            sx={{
-              mt: 3,
-              width: "95% !important",
-              height: "70vh",
-              maxWidth: "700px !important",
-              position: "relative",
-              padding: "20px",
-              overflow: "auto",
-              '& .MuiButton-root': {
-              minHeight: '80px',
-              height: '80px !important',
-              flexShrink: 0
-              }
-            }}
-          >
+          {!showUserCreditPage && !showSurvey && (
+            <Card
+              variant="outlined"
+              sx={{
+                mt: { xs: 2, sm: 2 }, // Reduced top margin on mobile from 8 to 2
+                mb: { xs: 2, sm: 2 }, // Added bottom margin
+                width: "95% !important",
+                height: { xs: "60vh", sm: "70vh" },
+                minHeight: { xs: "60vh", sm: "70vh" },
+                maxWidth: "700px !important",
+                position: "relative",
+                padding: "20px",
+                overflow: "auto !important", // Ensure overflow is set to auto
+                overflowY: "scroll !important", // Force vertical scrolling
+                WebkitOverflowScrolling: "touch", // Improve scrolling on iOS
+                msOverflowStyle: "-ms-autohiding-scrollbar", // Improve scrolling on IE/Edge
+                '& .MuiButton-root': {
+                  minHeight: '80px',
+                  height: '80px !important',
+                  flexShrink: 0
+                },
+                // Add a scrollbar styling that's more visible
+                '&::-webkit-scrollbar': {
+                  width: '8px',
+                },
+                '&::-webkit-scrollbar-track': {
+                  background: 'rgba(0,0,0,0.1)',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                  background: 'rgba(0,0,0,0.2)',
+                  borderRadius: '4px',
+                }
+                }}
+            >
             <Typography variant="h5" sx={{ mt: 1, ml: 2, mb: 3 }}>
               Elérhető kérdőívek ({availableSurveys.length})
             </Typography>
@@ -1217,8 +1405,32 @@ const [open, setOpen] = React.useState(false);
             currentCredits={credits}
             onPurchase={handleCreditPurchase}
             userId={userId}
+            onVoucherSelect={handleVoucherSelect}
+            onRefresh={true}
           />
         )}
+
+        <Dialog
+          open={confirmPurchaseOpen}
+          onClose={() => setConfirmPurchaseOpen(false)}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Kupon vásárlás megerősítése"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Biztosan meg szeretné vásárolni a(z) {selectedVoucher?.name} kupont {selectedVoucher?.creditCost} kreditért?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setConfirmPurchaseOpen(false)}>Mégse</Button>
+            <Button onClick={confirmVoucherPurchase} autoFocus>
+              Vásárlás
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <CssBaseline enableColorScheme />
 
@@ -1280,6 +1492,7 @@ const [open, setOpen] = React.useState(false);
         onClose={() => setProfileDialogOpen(false)}
         userData={userProfileData}
         onSave={handleSaveUserProfile}
+        userVouchers={userVouchers}
       />
 
       <Snackbar 

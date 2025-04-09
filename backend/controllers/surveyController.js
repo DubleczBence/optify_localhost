@@ -2,6 +2,7 @@ const SurveyModel = require('../models/surveyModel');
 const AnswerModel = require('../models/answerModel');
 const UserModel = require('../models/userModel');
 const TransactionModel = require('../models/transactionModel');
+const db = require('../config/db');
 
 class SurveyController {
   static async getSurveyById(req, res) {
@@ -78,6 +79,20 @@ class SurveyController {
       }
 
       await UserModel.updateCredits(userId, userCreditReward);
+
+      const transactionId = await TransactionModel.createUserTransaction({
+        userId,
+        amount: userCreditReward,
+        transactionType: 'survey',
+        surveyTitle: survey.title
+      });
+
+      await TransactionModel.connectToUser(userId, transactionId);
+
+      await db.promise().query(
+        'INSERT INTO survey_connections (survey_id, connection_type, connection_id) VALUES (?, ?, ?)',
+        [surveyId, 'transaction', transactionId]
+      );
 
       res.status(200).json({ 
         message: 'Survey submitted successfully',
