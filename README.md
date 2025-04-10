@@ -30,7 +30,9 @@
 <img src="https://img.shields.io/badge/Jest-C21325.svg?style=flat&logo=Jest&logoColor=white" alt="Jest">
 
 </div>
-<img align="center" src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
+<div align="center">
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
+</div>
 <br>
 
 ---
