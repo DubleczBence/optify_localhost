@@ -38,7 +38,6 @@ const StyledCard = styled(MuiCard)(({ theme }) => ({
     : 'rgba(0, 0, 5, 0.8) !important',
   boxShadow:
     'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  minHeight: '740px',
   animation: 'fadeIn 0.5s ease-out',
   '@keyframes fadeIn': {
     '0%': {
@@ -60,13 +59,11 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
 
   const fetchCreditHistory = useCallback(async () => {
     try {
-      // Használjuk a get függvényt a kredit előzmények lekéréséhez
       const data = await get(`/users/credit-history/${userId}`);
 
       const uniqueTransactions = Array.isArray(data) ? 
       Array.from(new Map(data.map(item => [item.id, item])).values()) : [];
       
-      // Formázott dátum hozzáadása minden tranzakcióhoz
       const formattedData = uniqueTransactions.map(transaction => ({
         ...transaction,
         formatted_date: new Date(transaction.transaction_date).toLocaleDateString('hu-HU', {
@@ -105,7 +102,6 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
         overflow: 'auto',
       }}
     >
-      {/* Transaction History Card - Left Side on Desktop, Below on Mobile */}
       <Card
         variant="outlined"
         sx={{
@@ -154,8 +150,8 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
           pl: 4,
           mb: 2,
           borderRadius: "10px",
-          opacity: 0.9, // Nagyobb opacitás (kevésbé átlátszó)
-          backgroundColor: "rgba(255, 255, 255, 0.9)", // Fehér háttér nagyobb opacitással
+          opacity: 0.9,
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
         }}
         variant="outlined"
       >
@@ -188,43 +184,52 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
         flexGrow: 1,
       }}>
         <StyledCard
-          variant="outlined"
-          sx={{
-            mt: 15,
-            width: "100%",
-            maxWidth: "700px",
-            height: isMobile ? "auto" : "600px",
+        variant="outlined"
+        sx={{
+          mt: 15,
+          width: "100%",
+          maxWidth: "700px",
+          height: isMobile ? "auto" : "600px",
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: 2,
+          paddingBottom: 0,
+          margin: '0 auto',
+          overflowY: 'auto',
+          order: isMobile ? 1 : 2,
+          animation: 'fadeInUp 0.7s ease-out',
+          '&::-webkit-scrollbar': {
+            width: '8px',
+          },
+          '&::-webkit-scrollbar-track': {
+            background: 'rgba(0,0,0,0.1)',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: 'rgba(0,0,0,0.2)',
+            borderRadius: '4px',
+          },
+          '@keyframes fadeInUp': {
+            '0%': {
+              opacity: 0,
+              transform: 'translateY(20px)',
+            },
+            '100%': {
+              opacity: 1,
+              transform: 'translateY(0)',
+            },
+          },
+        }}
+      >
+          <Box sx={{
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: 2,
-            paddingBottom: 0,
-            margin: '0 auto',
-            overflowY: 'auto',
-            order: isMobile ? 1 : 2,
-            animation: 'fadeInUp 0.7s ease-out',
-            '@keyframes fadeInUp': {
-              '0%': {
-                opacity: 0,
-                transform: 'translateY(20px)',
-              },
-              '100%': {
-                opacity: 1,
-                transform: 'translateY(0)',
-              },
-            },
-          }}
-        >
-          <Box sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            alignItems: 'center',
-            justifyContent: 'center',
-            mb: 0,
-            mt: 0,
-            width: '100%',
             position: 'relative',
-            padding: { xs: '0 10px', sm: '0 20px' }
+            width: '100%',
+            flexGrow: 1,
+            maxHeight: isMobile ? 'none' : '80vh',
+            overflow: isMobile ? 'visible' : 'hidden',
           }}>
             <Typography 
               variant="h4" 
@@ -268,6 +273,7 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
               marginBottom: 1, 
               boxShadow: 'none', 
               height:'auto',
+              minHeight: '300px',
               width: '100%', 
               backgroundColor: '#f5f5f5', 
               padding: 2
@@ -329,7 +335,9 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
                       sx={{
                         display: 'flex',
                         justifyContent: 'center',
-                        padding: '12px'
+                        padding: '12px',
+                        height: "auto",
+                        minHeight: "204px",
                       }}
                     >
                       <Card variant="outlined" sx={{ 
@@ -337,6 +345,7 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
                       padding: 1, 
                       border: "1px solid grey",
                       height: "180px",
+                      minHeight: "180px",
                       width: "100%",
                       maxWidth: "280px",
                       display: "flex",
@@ -380,9 +389,9 @@ const UserKredit = ({ currentCredits, onPurchase, userId, onClose, onVoucherSele
                       "& > *": {
                         position: "relative",
                         zIndex: 1
-                      }
+                      },
+                      flexShrink: 0,
                     }}>
-                      {/* No need for the small image in the corner anymore */}
                       <Typography variant="h5" fontWeight="bold" sx={{ mb: 0, mt: 1, zIndex: 2 }}>
                         {item.name}
                       </Typography>

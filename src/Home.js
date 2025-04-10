@@ -594,7 +594,6 @@ const Home = ({ onSignOut, onSendData }) => {
     try {
       if (!userId) return;
       
-      // Csak naplózzuk, hogy frissítettük a kredit előzményeket
       console.log('Refreshing credit history for user:', userId);
       await get(`/users/credit-history/${userId}`);
     console.log('Credit history refreshed');
@@ -637,7 +636,6 @@ const Home = ({ onSignOut, onSendData }) => {
     if (!selectedVoucher) return;
     
     try {
-      // Kupon vásárlás API hívás
       const response = await post('/users/purchase-voucher', {
         userId: userId,
         voucherName: selectedVoucher.name,
@@ -645,25 +643,20 @@ const Home = ({ onSignOut, onSendData }) => {
       });
       
       if (response.message && response.message.includes('success')) {
-        // Frissítsük a kredit egyenleget
         setCredits(response.currentCredits || credits);
         fetchCredits();
 
         fetchCreditHistory();
         
-        // Sikeres vásárlás után
         setPurchaseSuccess(true);
         fetchUserVouchers();
         
-        // Zárjuk be a megerősítő dialógust
         setConfirmPurchaseOpen(false);
         
-        // 5 másodperc után rejtsük el a sikeres vásárlás üzenetet
         setTimeout(() => {
           setPurchaseSuccess(false);
         }, 5000);
         
-        // Snackbar értesítés
         setSnackbar({
           open: true,
           message: 'Sikeres kupon vásárlás! A kuponjait a profil menüben tekintheti meg.',
@@ -683,7 +676,57 @@ const Home = ({ onSignOut, onSendData }) => {
     }
   };
 
-  // Kuponok lekérése a felhasználóhoz
+  useEffect(() => {
+    const handleScrolling = () => {
+      const container = document.querySelector('.MuiStack-root');
+      if (!container) return;
+      
+      if (window.innerWidth > 600) {
+        container.style.overflowY = 'hidden';
+        document.body.style.overflow = 'hidden';
+      } else {
+        container.style.overflowY = 'auto';
+        document.body.style.overflow = 'auto';
+      }
+    };
+    
+    handleScrolling();
+    
+    window.addEventListener('resize', handleScrolling);
+    
+    return () => {
+      window.removeEventListener('resize', handleScrolling);
+    };
+  }, []);
+
+  useEffect(() => {
+    const checkScrollbar = () => {
+      const container = document.querySelector('.MuiStack-root');
+      if (container) {
+        if (container.scrollHeight <= container.clientHeight) {
+          container.style.overflowY = 'hidden';
+        } else {
+          container.style.overflowY = 'auto';
+        }
+      }
+    };
+  
+    checkScrollbar();
+  
+    window.addEventListener('resize', checkScrollbar);
+  
+    const observer = new MutationObserver(checkScrollbar);
+    const container = document.querySelector('.MuiStack-root');
+    if (container) {
+      observer.observe(container, { childList: true, subtree: true });
+    }
+
+    return () => {
+      window.removeEventListener('resize', checkScrollbar);
+      observer.disconnect();
+    };
+  }, [showSurvey, showUserCreditPage]);
+
   const fetchUserVouchers = useCallback(async () => {
     try {
       if (!userId) return;
@@ -760,7 +803,41 @@ const Home = ({ onSignOut, onSendData }) => {
   };
 
 
-
+  useEffect(() => {
+    const resetViewport = () => {
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        if (viewportMeta) {
+          viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0');
+          setTimeout(() => {
+            viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+          }, 300);
+        }
+      }, 300);
+    };
+  
+    window.addEventListener('resize', resetViewport);
+    
+    document.addEventListener('focusout', resetViewport);
+  
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', () => {
+        if (window.visualViewport.height === window.innerHeight) {
+          resetViewport();
+        }
+      });
+    }
+  
+    return () => {
+      window.removeEventListener('resize', resetViewport);
+      document.removeEventListener('focusout', resetViewport);
+      if (window.visualViewport) {
+        window.visualViewport.removeEventListener('resize', resetViewport);
+      }
+    };
+  }, []);
 
   const fetchCredits = useCallback(async () => {
     try {
@@ -828,30 +905,27 @@ const Home = ({ onSignOut, onSendData }) => {
 
 
   const sendData = async () => {
-    // Ellenőrizzük, hogy minden kötelező mező ki van-e töltve
     if (!vegzettseg || !korcsoport || !regio || !nem || !anyagi) {
       alert('Kérjük, töltsön ki minden mezőt!');
       return;
     }
   
-    // Alakítsuk át a korcsoport dayjs objektumot ISO string formátumra
     const formattedData = {
       vegzettseg,
-      korcsoport: korcsoport.format('YYYY-MM-DD'), // ISO formátum
+      korcsoport: korcsoport.format('YYYY-MM-DD'),
       regio,
       nem,
       anyagi,
-      userId: userId // Adjuk hozzá a felhasználó azonosítóját
+      userId: userId
     };
   
     try {
-      console.log('Sending data:', formattedData); // Debug log
+      console.log('Sending data:', formattedData);
       await post('/main/home', formattedData);
       setIsFormFilled(true);
       window.location.reload();
     } catch (error) {
       console.error('Error sending data:', error);
-      // Jelenítsünk meg egy hibaüzenetet a felhasználónak
       setSnackbar({
         open: true,
         message: 'Hiba történt az adatok küldése során. Kérjük, próbálja újra!',
@@ -919,7 +993,6 @@ const [open, setOpen] = React.useState(false);
         return;
       }
       
-      // Ellenőrizzük, hogy minden kérdésre van-e válasz
       if (!isAllQuestionsAnswered()) {
         setSnackbar({
           open: true,
@@ -939,8 +1012,7 @@ const [open, setOpen] = React.useState(false);
       console.log('Credit amount calculated:', creditAmount);
 
       const delayPromise = new Promise(resolve => setTimeout(resolve, 1500));
-    
-      // Használjuk a post függvényt a fetch helyett
+
       const postPromise = post('/main/submit-survey', {
         surveyId: surveyId,
         answers: Object.entries(answers).map(([questionId, value]) => ({
@@ -952,7 +1024,6 @@ const [open, setOpen] = React.useState(false);
       await Promise.all([postPromise, delayPromise]);
     
       await fetchCredits();
-      // Frissítsük a kredit előzményeket is
       await fetchCreditHistory();
       
       setSubmittingSurvey(false);
@@ -988,7 +1059,6 @@ const [open, setOpen] = React.useState(false);
 
   const fetchAvailableSurveys = async () => {
     try {
-      // Használjuk a get függvényt a fetch helyett
       const data = await get('/main/available-surveys');
       console.log('Fetched surveys:', data);
       console.log('Available survey IDs:', data.surveys ? data.surveys.map(s => s.id) : []);
@@ -1018,7 +1088,6 @@ const [open, setOpen] = React.useState(false);
         return;
       }
     
-      // Használjuk a get függvényt a fetch helyett
       const surveyData = await get(`/main/survey/${surveyId}`);
       console.log('Survey data from API:', surveyData);
     
@@ -1110,11 +1179,11 @@ const [open, setOpen] = React.useState(false);
   <TextCarousel />
 </Box>
 
-      <Box 
+<Box 
   sx={{ 
     width: '100%', 
     mb: 4,
-    mt: { xs: 6, sm: 0 }, 
+    mt: { xs: 2, sm: 4 }, 
     px: { xs: 1, sm: 2, md: 3 },
     position: 'relative',
     display: 'flex',
@@ -1130,12 +1199,12 @@ const [open, setOpen] = React.useState(false);
       cursor: 'pointer',
       fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.6rem' },
       order: { xs: 2, md: 1 },
-      mt: { xs: 2, md: -1 },
+      mt: { xs: 2, sm: 0, md: -1 },
       position: 'relative',
       zIndex: 5,
       width: { xs: '100%', md: '25%' }, 
       textAlign: { xs: 'center', md: 'left' },
-      pl: { md: 20 },
+      pl: { md: 10, lg: 20 },
       color: theme => theme.palette.mode === 'light' ? '#003092' : 'inherit',
     }}
     onClick={() => {
@@ -1155,7 +1224,7 @@ const [open, setOpen] = React.useState(false);
       fontSize: { xs: '1rem', sm: '1.1rem', md: '1.25rem' },
       order: { xs: 1, md: 2 },
       width: { xs: '100%', md: '50%' },
-      mt: { xs: 1, md: 0 },
+      mt: { xs: 6, sm: 3, md: 0 },
       mb: { xs: 1, md: 0 },
       whiteSpace: 'nowrap',
       zIndex: 4,
@@ -1198,46 +1267,46 @@ const [open, setOpen] = React.useState(false);
   </Box>
 </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: { xs: 0.5, sm: 1 }, marginBottom: { xs: 0.5, sm: 1 }}}>
-  <SimpleBottomNavigation 
-    value={value}
-    onChange={handleNavigationChange}
-    sx={{
-      backgroundColor: 'transparent',
-      boxShadow: theme.shadows[1],
-      width: { xs: '50%', sm: '18%' },
-      margin: '0 auto',
-      position: 'relative',
-      top: '80px',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      zIndex: 1000
-    }}
-  />
-</Box>
+    <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: { xs: 0.5, sm: 1 }, marginBottom: { xs: 0.5, sm: 1 }}}>
+      <SimpleBottomNavigation 
+        value={value}
+        onChange={handleNavigationChange}
+        sx={{
+          backgroundColor: 'transparent',
+          boxShadow: theme.shadows[1],
+          width: { xs: '50%', sm: '18%' },
+          margin: '0 auto',
+          position: 'relative',
+          top: '80px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 1000
+        }}
+      />
+    </Box>
 
-          {!showUserCreditPage && !showSurvey && (
+    {!showUserCreditPage && !showSurvey && (
             <Card
               variant="outlined"
               sx={{
-                mt: { xs: 2, sm: 2 }, // Reduced top margin on mobile from 8 to 2
-                mb: { xs: 2, sm: 2 }, // Added bottom margin
+                mt: { xs: 2, sm: 2 },
+                mb: { xs: 8, sm: 10 },
                 width: "95% !important",
                 height: { xs: "60vh", sm: "70vh" },
                 minHeight: { xs: "60vh", sm: "70vh" },
                 maxWidth: "700px !important",
                 position: "relative",
                 padding: "20px",
-                overflow: "auto !important", // Ensure overflow is set to auto
-                overflowY: "scroll !important", // Force vertical scrolling
-                WebkitOverflowScrolling: "touch", // Improve scrolling on iOS
-                msOverflowStyle: "-ms-autohiding-scrollbar", // Improve scrolling on IE/Edge
+                overflow: "auto",
+                overflowY: "auto !important",
+                WebkitOverflowScrolling: "touch",
+                msOverflowStyle: "-ms-autohiding-scrollbar",
                 '& .MuiButton-root': {
                   minHeight: '80px',
                   height: '80px !important',
                   flexShrink: 0
                 },
-                // Add a scrollbar styling that's more visible
+
                 '&::-webkit-scrollbar': {
                   width: '8px',
                 },
@@ -1289,19 +1358,43 @@ const [open, setOpen] = React.useState(false);
         )}
 
 
-        {showSurvey && selectedSurvey && (
+{showSurvey && selectedSurvey && (
           <Card
-            variant="outlined"
-            sx={{
-              mt: 3, 
-              width: "95% !important",
-              height: "70vh !important",
-              maxWidth: "700px !important",
-              position: "relative",
-              padding: "20px",
-              overflow: "auto"
-            }}
-          >
+          variant="outlined"
+          sx={{
+            mt: { xs: 2, sm: 2 },
+            mb: { xs: 8, sm: 10 },
+            width: "95% !important",
+            height: { xs: "60vh", sm: "70vh" },
+            minHeight: { xs: "60vh", sm: "70vh" },
+            maxWidth: "700px !important",
+            position: "relative",
+            padding: "20px",
+            overflow: "auto",
+            overflowY: "auto !important",
+            WebkitOverflowScrolling: "touch",
+            msOverflowStyle: "-ms-autohiding-scrollbar",
+            '& .MuiButton-root': {
+              [theme.breakpoints.down('sm')]: {
+                minHeight: '80px',
+                height: '80px !important',
+                flexShrink: 0,
+                fontSize: '1rem',
+                padding: '0 16px'
+              }
+            },
+            '&::-webkit-scrollbar': {
+              width: '8px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: 'rgba(0,0,0,0.1)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'rgba(0,0,0,0.2)',
+              borderRadius: '4px',
+            }
+          }}
+        >
             <Typography 
               variant="h5" 
               sx={{ 
@@ -1315,8 +1408,7 @@ const [open, setOpen] = React.useState(false);
             >
               {selectedSurvey.title}
             </Typography>
-
-
+    
             {selectedSurvey.question && selectedSurvey.question.map((question, index) => (
               <Container
                 key={index}
@@ -1330,7 +1422,8 @@ const [open, setOpen] = React.useState(false);
                   height: "auto",
                   width: "98%",
                   position: "relative",
-                  mt: 2
+                  mt: 2,
+                  mb: 2,
                 }}
               >
                 <Box sx={{ mb: 4, ml: 2 }}>
@@ -1391,21 +1484,49 @@ const [open, setOpen] = React.useState(false);
               </Container>
             ))}
 
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 2, mb: 2 }}>
+          <Box sx={{ 
+                display: 'flex', 
+                gap: 2, 
+                justifyContent: 'center', 
+                mt: 4, 
+                mb: 2,
+                pt: 2,
+                position: 'relative',
+                borderTop: '1px solid',
+                borderColor: 'divider',
+              }}>
               <Button
-                onClick={handleCloseSurvey}
-                variant="outlined"
-              >
+              onClick={handleCloseSurvey}
+              variant="outlined"
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  minHeight: '60px',
+                  height: '60px !important',
+                  fontSize: '0.9rem',
+                  padding: '0 12px',
+                  flex: 1
+                }
+              }}
+            >
                 Vissza a kérdőívekhez
               </Button>
               <Button
-                onClick={handleSubmitSurvey}
-                variant="contained"
-                color="primary"
-                disabled={!isAllQuestionsAnswered() || submittingSurvey}
-              >
-                Küldés
-              </Button>
+              onClick={handleSubmitSurvey}
+              variant="contained"
+              color="primary"
+              disabled={!isAllQuestionsAnswered() || submittingSurvey}
+              sx={{
+                [theme.breakpoints.down('sm')]: {
+                  minHeight: '60px',
+                  height: '60px !important',
+                  fontSize: '0.9rem',
+                  padding: '0 12px',
+                  flex: 1
+                }
+              }}
+            >
+              Küldés
+            </Button>
             </Box>
           </Card>
         )}
@@ -1418,7 +1539,6 @@ const [open, setOpen] = React.useState(false);
             onPurchase={handleCreditPurchase}
             userId={userId}
             onVoucherSelect={handleVoucherSelect}
-            onRefresh={true}
           />
         )}
 
@@ -1445,6 +1565,28 @@ const [open, setOpen] = React.useState(false);
         </Dialog>
 
         <CssBaseline enableColorScheme />
+        <style jsx global>{`
+          @media (min-width: 600px) {
+            html, body, #root, .MuiStack-root {
+              overflow: hidden !important;
+              height: 100vh !important;
+              max-height: 100vh !important;
+            }
+          }
+          
+          /* Görgetősáv teljes eltávolítása nagyobb képernyőkön */
+          @media (min-width: 600px) {
+            ::-webkit-scrollbar {
+              display: none !important;
+              width: 0 !important;
+            }
+            
+            * {
+              scrollbar-width: none !important;
+              -ms-overflow-style: none !important;
+            }
+          }
+        `}</style>
 
         <Menu
         anchorEl={anchorEl}
@@ -1588,7 +1730,7 @@ const [open, setOpen] = React.useState(false);
 
             <IllustrationContainer>
               <img 
-                key={showUserCreditPage ? "userCredit" : "userSurvey"} // Egyedi kulcs az animáció újraindításához
+                key={showUserCreditPage ? "userCredit" : "userSurvey"}
                 src={showUserCreditPage ? "/kepek/illustration-kitolto_kredit.png" : "/kepek/illustration-kitolto_kerdoiv.png"} 
                 alt={showUserCreditPage ? "Kredit Illusztráció" : "Kérdőív Illusztráció"} 
                 style={{ 
@@ -1629,13 +1771,13 @@ const [open, setOpen] = React.useState(false);
   sx={{ 
     width: '100%', 
     mb: 4,
-    mt: { xs: 6, sm: 0 }, 
+    mt: { xs: 2, sm: 4 }, 
     px: { xs: 1, sm: 2, md: 3 },
     position: 'relative',
     display: 'flex',
     flexDirection: { xs: 'column', sm: 'row' },
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   }}
 >
 <Typography
@@ -1666,8 +1808,8 @@ const [open, setOpen] = React.useState(false);
       position: { sm: 'absolute' },
       left: { sm: '50%' },
       transform: { sm: 'translateX(-50%)' },
-      width: { xs: '100%', sm: 'auto' },
-      mt: { xs: 2, sm: -1 },
+      width: { xs: '100%', md: '50%' },
+      mt: { xs: 4, sm: -1 },
       whiteSpace: 'nowrap',
       zIndex: 4
     }}
@@ -1676,15 +1818,16 @@ const [open, setOpen] = React.useState(false);
   </Typography>
   
   <Box sx={{
-    display: 'flex',
-    gap: { xs: 2, sm: 3, md: 5 },
-    order: { xs: 3, sm: 3 },
-    mt: { xs: 0, sm: 0 },
-    position: 'relative',
-    right: { xs: 0, sm: -10, md: -20 },
-    width: { sm: '25%' },
-    justifyContent: 'flex-end'
-  }}>
+      display: 'flex',
+      gap: { xs: 2, sm: 3, md: 5 },
+      order: { xs: 3, sm: 3 },
+      mt: { xs: -2, sm: 0 },
+      width: { xs: '100%', md: '25%' },
+      justifyContent: { xs: 'center', md: 'flex-end' },
+      position: 'relative',
+      top: { xs: -10, sm: 'auto' },
+      right: 'auto'
+    }}>
     <ColorModeSelect sx={{ 
       display: 'flex',
       alignItems: 'center'
@@ -1714,9 +1857,12 @@ const [open, setOpen] = React.useState(false);
               width: { xs: '95%', sm: '600px' },
               maxWidth: '600px',
               mx: 'auto',
-              mt: { xs: 0, sm: 10 },
-              position: 'relative', // Hozzáadva, hogy a z-index működjön
-              zIndex: 1 // Hozzáadva, hogy a kártya az illusztráció felett legyen
+              mt: { xs: 2, sm: -6 },
+              mb: { xs: 8, sm: 10 },
+              position: 'relative',
+              zIndex: 1,
+              height: { xs: "auto", sm: "auto" },
+              overflow: "auto"
             }}>
       
             <FormControl sx={{ m: 1, minWidth: 240 }}>
@@ -1771,9 +1917,9 @@ const [open, setOpen] = React.useState(false);
       textField: {
         onClick: () => setIsCalendarOpen(true),
         sx: {
-          m: 1,                   // Margin hozzáadása, mint a többi FormControl-nál
-          minWidth: 240,          // Ugyanaz a minWidth, mint a többi FormControl-nál
-          width: 'auto',          // Explicit width: auto beállítás
+          m: 1,
+          minWidth: 240,
+          width: 'auto',
           '& .MuiInputBase-root': {
             fontSize: '1.2rem',
             padding: '10px',
@@ -1784,9 +1930,9 @@ const [open, setOpen] = React.useState(false);
             fontSize: '1.2rem',
             fontWeight: 'bold',
             lineHeight: '1.5',
-            transform: 'translate(0px, -20px) scale(0.75)', // Ez a sor módosítja a label pozícióját
+            transform: 'translate(0px, -20px) scale(0.75)',
             '&.Mui-focused, &.MuiFormLabel-filled': {
-              transform: 'translate(0px, -20px) scale(0.75)' // Fókuszált és kitöltött állapotban is
+              transform: 'translate(0px, -20px) scale(0.75)'
             }
           },
           '& .MuiInputAdornment-root': {

@@ -139,6 +139,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 
 
+
 const CompHomeContainer = styled(Stack)(({ theme }) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
   minHeight: '100%',
@@ -159,7 +160,7 @@ const CompHomeContainer = styled(Stack)(({ theme }) => ({
 
 
 const IllustrationContainer = styled(Box)(({ theme }) => ({
-  display: 'none', // Mobilon elrejtjük
+  display: 'none',
   [theme.breakpoints.up('md')]: {
     display: 'flex',
     alignItems: 'center',
@@ -211,8 +212,8 @@ const SimpleBottomNavigation = ({ value, onChange }) => {
       
       sx={{
         backgroundColor: 'transparent',
-        mt: 2, 
-        mb: 2,
+        mt: { xs: 0, sm: 2 },
+        mb: { xs: 1, sm: 2 },
         width: '18%', 
       }}
     >
@@ -549,7 +550,6 @@ const CompHome = ({ onSignOut }) => {
       
       console.log('Notifications data:', data);
       
-      // Calculate total new responses across all surveys
       const notifications = Array.isArray(data) ? data : [];
       const totalNewResponses = notifications.reduce((total, notification) => total + notification.new_responses, 0);
       
@@ -564,19 +564,16 @@ const CompHome = ({ onSignOut }) => {
 
   useEffect(() => {
     fetchNotifications(false);
-    
-    // Set up a polling interval to check for new notifications
+
     const intervalId = setInterval(() => {
       fetchNotifications(false);
-    }, 60000); // Check every minute
+    }, 60000);
     
     return () => clearInterval(intervalId);
   }, [fetchNotifications]);
 
   
-  // Make sure this function is correctly implemented
   const handleNotificationClick = () => {
-    // Create snackbars for current notifications before fetching new ones
     const currentNotifications = notificationsRef.current;
     
     if (currentNotifications.length > 0) {
@@ -597,25 +594,21 @@ const CompHome = ({ onSignOut }) => {
       }]);
     }
     
-    // Then update the login time and reset notifications
     fetchNotifications(true).then(() => {
       setNotificationCount(0);
     });
   };
-  
-  // Comp_Home.js - useEffect a komponens betöltésekor
+
   useEffect(() => {
     fetchNotifications(false);
-    
-    // Set up a polling interval to check for new notifications
+
     const intervalId = setInterval(() => {
       fetchNotifications(false);
-    }, 60000); // Check every minute
+    }, 60000);
     
     return () => clearInterval(intervalId);
   }, [fetchNotifications]);
-  
-  // Hozzunk létre egy függvényt a snackbar bezárásához
+ 
   const handleCloseNotification = (id) => {
     setOpenNotifications(prev => prev.map(notif => 
       notif.id === id ? { ...notif, open: false } : notif
@@ -797,20 +790,18 @@ const displayedSurveys = Array.isArray(isFilterActive ? filteredSurveys : compan
 useEffect(() => {
   const fetchCredits = async () => {
     try {
-      // Használj try-catch blokkot a hibák kezelésére
       const data = await get(`/companies/credits/${location.state?.cegId || localStorage.getItem('cegId')}`);
-      console.log("Credits data:", data); // Debug log
+      console.log("Credits data:", data);
       
-      // Ellenőrizd, hogy a válasz tartalmazza-e a credits mezőt
       if (data && typeof data.credits === 'number') {
         setCredits(data.credits);
       } else {
         console.error("Invalid credits data format:", data);
-        setCredits(0); // Alapértelmezett érték
+        setCredits(0);
       }
     } catch (error) {
       console.error('Error fetching credits:', error);
-      setCredits(0); // Hiba esetén alapértelmezett érték
+      setCredits(0);
     }
   };
   
@@ -825,7 +816,6 @@ useEffect(() => {
   useEffect(() => {
     const fetchCompanySurveys = async () => {
       try {
-        // Ellenőrizd, hogy van-e cegId
         const companyId = location.state?.cegId || localStorage.getItem('cegId');
         if (!companyId) {
           console.error("No company ID available");
@@ -834,18 +824,17 @@ useEffect(() => {
         
         const data = await get(`/main/company-surveys/${companyId}`);
         
-        // Ellenőrizd a válasz formátumát
         if (Array.isArray(data)) {
           setCompanySurveys(data);
         } else if (data && Array.isArray(data.surveys)) {
           setCompanySurveys(data.surveys);
         } else {
           console.error("Invalid surveys data format:", data);
-          setCompanySurveys([]); // Üres tömb alapértelmezettként
+          setCompanySurveys([]);
         }
       } catch (error) {
         console.error('Error fetching company surveys:', error);
-        setCompanySurveys([]); // Hiba esetén üres tömb
+        setCompanySurveys([]);
       }
     };
     
@@ -1349,7 +1338,7 @@ const handleCardDialogClose = (cardName) => {
     onClick={() => {
       setShowCreditPage(true);
       setValue(1);
-      setShowStatisztika(false);  // Adj hozzá ezt a sort
+      setShowStatisztika(false);
     }}
   >
     {credits} Kredit
@@ -1463,7 +1452,7 @@ const handleCardDialogClose = (cardName) => {
     width: '95%', 
     maxWidth: '700px',
     mb: 0,
-    mt: 4,
+    mt: { xs: 1, sm: 4 },
   }}>
 
 
@@ -1499,316 +1488,316 @@ const handleCardDialogClose = (cardName) => {
       {/* Első Card */}
       { showFirstCard && !showCreditPage && (
         
-  <Card
-    variant="outlined"
-    sx={{
-      mt: 1,
-      width: "95% !important",
-      height: { xs: "auto", sm: "70%" },
-      maxWidth: "700px !important",
-      overflow: "auto",
-    }}
-  >
-
-      <Button
-        onClick={handleClickOpenKerd}
-        sx={{
-          height: { xs: "auto", sm: "80px" },
-          minHeight: "60px",
-          width: "100%",
-          justifyContent: "flex-start",
-          textAlign: "left",
-          pl: { xs: 2, sm: 4 },
-          fontSize: { xs: "1rem", sm: "1.2rem" },
-          flexShrink: 0,
-          mb: 2,
-          whiteSpace: "normal",
-          bgcolor: (theme) => theme.palette.mode === 'light' 
-              ? 'rgba(25, 118, 210, 0.08)' // Halvány kék háttér világos módban
-              : 'rgba(25, 118, 210, 0.15) !important', // Kicsit erősebb kék háttér sötét módban, !important-tal
-          color: (theme) => theme.palette.mode === 'light'
-              ? 'rgba(25, 118, 210, 1)'
-              : '#ffffff',
-          border: '2px solid rgba(25, 118, 210, 0.87) !important', // Halvány kék keret
-          '&:hover': {
-            bgcolor: (theme) => theme.palette.mode === 'light'
-              ? 'rgba(25, 118, 210, 0.12)' // Kicsit erősebb kék hover állapotban világos módban
-              : 'rgba(25, 118, 210, 0.25) !important', // Erősebb kék hover állapotban sötét módban, !important-tal
-            border: '2px solid rgba(25, 118, 210, 0.7)', // Erősebb kék keret hover állapotban
-          },
-        }}
-        variant="outlined"
-        startIcon={
-          <AddCircleOutlineIcon
-            sx={{
-              width: { xs: "24px", sm: "32px" },
-              height: { xs: "24px", sm: "32px" },
-              mr: { xs: 1, sm: 2 },
-            }}
-          />
-        }
-      >
-        Kérdőív létrehozása
-      </Button>
-
-
-    <Popover
-  id={filterId}
-  open={openFilter}
-  anchorEl={filterAnchorEl}
-  onClose={handleFilterClose}
-  anchorOrigin={{
-    vertical: 'bottom',
-    horizontal: 'right',
-  }}
-  transformOrigin={{
-    vertical: 'top',
-    horizontal: 'right',
-  }}
->
-  <Box sx={{ p: 3, width: 350 }}>
-    <Typography variant="h6" gutterBottom>
-      Kérdőívek szűrése
-    </Typography>
-    
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="subtitle2" gutterBottom>
-        Kérdőív címe
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <FormControl size="small" sx={{ width: '70%' }}>
-        <Select
-        value={surveyFilter.titleFilterType}
-        onChange={(e) => setSurveyFilter({...surveyFilter, titleFilterType: e.target.value})}
-        sx={{
-          '& .MuiSelect-select': {
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            pr: 4 
-          }
-        }}
-        renderValue={(value) => {
-          const options = {
-            contains: 'Tartalmazza',
-            startsWith: 'Kezdődik...',
-            endsWith: 'Végződik...',
-            equals: 'Egyezik...'
-          };
-          return options[value] || value;
-        }}
-      >
-            <MenuItem value="contains">Tartalmazza</MenuItem>
-            <MenuItem value="startsWith">Ezzel kezdődik</MenuItem>
-            <MenuItem value="endsWith">Ezzel végződik</MenuItem>
-            <MenuItem value="equals">Pontosan egyezik</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          size="small"
-          fullWidth
-          value={surveyFilter.title}
-          onChange={(e) => setSurveyFilter({...surveyFilter, title: e.target.value})}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-    </Box>
-    
-    <Box sx={{ mb: 2 }}>
-      <Typography variant="subtitle2" gutterBottom>
-        Dátum
-      </Typography>
-      <Box sx={{ display: 'flex', gap: 1 }}>
-        <FormControl size="small" sx={{ width: '70%' }}>
-        <Select
-        value={surveyFilter.dateFilterType}
-        onChange={(e) => setSurveyFilter({...surveyFilter, dateFilterType: e.target.value})}
-        sx={{
-          '& .MuiSelect-select': {
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            pr: 4 
-          }
-        }}
-        renderValue={(value) => {
-          const options = {
-            contains: 'Tartalmazza',
-            startsWith: 'Kezdődik...',
-            endsWith: 'Végződik...',
-            equals: 'Egyezik...'
-          };
-          return options[value] || value;
-        }}
-      >
-            <MenuItem value="contains">Tartalmazza</MenuItem>
-            <MenuItem value="startsWith">Ezzel kezdődik</MenuItem>
-            <MenuItem value="endsWith">Ezzel végződik</MenuItem>
-            <MenuItem value="equals">Pontosan egyezik</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          size="small"
-          fullWidth
-          value={surveyFilter.date}
-          onChange={(e) => setSurveyFilter({...surveyFilter, date: e.target.value})}
-          placeholder="pl. 2023-05"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" />
-              </InputAdornment>
-            ),
-          }}
-        />
-      </Box>
-    </Box>
-    
-    <Box sx={{ mt: 3 }}>
-      <Typography variant="subtitle2" gutterBottom>
-        Kitöltöttség (%)
-      </Typography>
-      <Slider
-        value={[surveyFilter.completionMin, surveyFilter.completionMax]}
-        onChange={(e, newValue) => setSurveyFilter({
-          ...surveyFilter, 
-          completionMin: newValue[0], 
-          completionMax: newValue[1]
-        })}
-        valueLabelDisplay="auto"
-        min={0}
-        max={100}
-      />
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
-        <Typography variant="caption">
-          Min: {surveyFilter.completionMin}%
-        </Typography>
-        <Typography variant="caption">
-          Max: {surveyFilter.completionMax}%
-        </Typography>
-      </Box>
-    </Box>
-    
-    <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
-      <Button onClick={clearFilter} color="inherit">
-        Törlés
-      </Button>
-      <Button onClick={applyFilter} variant="contained">
-        Szűrés
-      </Button>
-    </Box>
-  </Box>
-</Popover>
-
-
-    {displayedSurveys.map(survey => (
-      <Button
-        key={survey.id}
-        onClick={() => {
-          setSelectedSurveyId(survey.id);
-          setShowFirstCard(false);
-          setShowSecondCard(false);
-          setShowThirdCard(false);
-          setShowFourthCard(false);
-          setShowFifthCard(false);
-          setShowSixthCard(true);
-        }}
-        sx={{
-          height: { xs: "auto", sm: "80px" },
-          minHeight: { xs: "80px", sm: "80px" },
-          flexShrink: 0,
-          textAlign: "left",
-          pl: { xs: 2, sm: 4 },
-          fontSize: { xs: "0.9rem", sm: "1.2rem" },
-          mb: 2,
-          width: "100%",
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          alignItems: { xs: 'flex-start', sm: 'center' },
-          justifyContent: 'space-between',
-          py: { xs: 2, sm: 0 },
-          whiteSpace: "normal",
-          bgcolor: (theme) => theme.palette.mode === 'light' 
-            ? 'rgba(255, 255, 255, 1)'
-            : undefined,
-          boxShadow: (theme) => theme.palette.mode === 'light'
-            ? '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
-            : '0 1px 3px rgba(179, 179, 179, 0.36), 0 1px 2px rgba(179, 179, 179, 0.31)',
-        }}
-        variant="outlined"
-      >
-        <Typography 
-          component="span" 
-          sx={{ 
-            fontSize: { xs: '0.9rem', sm: '1.2rem' },
-            mb: { xs: 1, sm: 0 },
-            width: { xs: '100%', sm: 'auto' },
-            wordBreak: "break-word"
+        <Card
+          variant="outlined"
+          sx={{
+            mt: { xs: 0, sm: 1 },
+            width: "95% !important",
+            height: { xs: "auto", sm: "70%" },
+            maxWidth: "700px !important",
+            overflow: "auto",
           }}
         >
-          {survey.title}
-        </Typography>
-        
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: { xs: 'row', sm: 'row' }, 
-          alignItems: 'center', 
-          gap: { xs: 1, sm: 2 }, 
-          mr: { xs: 0, sm: 2 },
-          width: { xs: '100%', sm: 'auto' },
-          justifyContent: { xs: 'space-between', sm: 'flex-end' }
-        }}>
-          <Typography
-            component="span"
-            sx={{
-              width: "auto",
-              minWidth: { xs: "auto", sm: "150px" },
-              height: { xs: "auto", sm: "37px" },
-              borderRadius: "10px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "0 10px",
-              fontSize: { xs: '0.8rem', sm: 'inherit' }
-            }}
-          >
-            {survey.created_date}
+      
+            <Button
+              onClick={handleClickOpenKerd}
+              sx={{
+                height: { xs: "auto", sm: "80px" },
+                minHeight: "60px",
+                width: "100%",
+                justifyContent: "flex-start",
+                textAlign: "left",
+                pl: { xs: 2, sm: 4 },
+                fontSize: { xs: "1rem", sm: "1.2rem" },
+                flexShrink: 0,
+                mb: 2,
+                whiteSpace: "normal",
+                bgcolor: (theme) => theme.palette.mode === 'light' 
+                    ? 'rgba(25, 118, 210, 0.08)'
+                    : 'rgba(25, 118, 210, 0.15) !important',
+                color: (theme) => theme.palette.mode === 'light'
+                    ? 'rgba(25, 118, 210, 1)'
+                    : '#ffffff',
+                border: '2px solid rgba(25, 118, 210, 0.87) !important',
+                '&:hover': {
+                  bgcolor: (theme) => theme.palette.mode === 'light'
+                    ? 'rgba(25, 118, 210, 0.12)'
+                    : 'rgba(25, 118, 210, 0.25) !important',
+                  border: '2px solid rgba(25, 118, 210, 0.7)',
+                },
+              }}
+              variant="outlined"
+              startIcon={
+                <AddCircleOutlineIcon
+                  sx={{
+                    width: { xs: "24px", sm: "32px" },
+                    height: { xs: "24px", sm: "32px" },
+                    mr: { xs: 1, sm: 2 },
+                  }}
+                />
+              }
+            >
+              Kérdőív létrehozása
+            </Button>
+      
+      
+          <Popover
+        id={filterId}
+        open={openFilter}
+        anchorEl={filterAnchorEl}
+        onClose={handleFilterClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <Box sx={{ p: 3, width: 350 }}>
+          <Typography variant="h6" gutterBottom>
+            Kérdőívek szűrése
           </Typography>
-          <Box sx={{ 
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center',
-            minWidth: { xs: "60px", sm: "auto" }
-          }}>
-            <Typography sx={{ fontSize: { xs: '0.8rem', sm: 'inherit' } }}>
-              {Math.round(survey.completion_percentage)}%
+          
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="subtitle2" gutterBottom>
+              Kérdőív címe
             </Typography>
-            <Typography 
-              variant="caption" 
-              sx={{ 
-                mt: -0.5,
-                fontSize: { xs: '0.7rem', sm: '0.75rem' }
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <FormControl size="small" sx={{ width: '70%' }}>
+              <Select
+              value={surveyFilter.titleFilterType}
+              onChange={(e) => setSurveyFilter({...surveyFilter, titleFilterType: e.target.value})}
+              sx={{
+                '& .MuiSelect-select': {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  pr: 4 
+                }
+              }}
+              renderValue={(value) => {
+                const options = {
+                  contains: 'Tartalmazza',
+                  startsWith: 'Kezdődik...',
+                  endsWith: 'Végződik...',
+                  equals: 'Egyezik...'
+                };
+                return options[value] || value;
               }}
             >
-              Folyamatban
+                  <MenuItem value="contains">Tartalmazza</MenuItem>
+                  <MenuItem value="startsWith">Ezzel kezdődik</MenuItem>
+                  <MenuItem value="endsWith">Ezzel végződik</MenuItem>
+                  <MenuItem value="equals">Pontosan egyezik</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                size="small"
+                fullWidth
+                value={surveyFilter.title}
+                onChange={(e) => setSurveyFilter({...surveyFilter, title: e.target.value})}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          </Box>
+          
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="subtitle2" gutterBottom>
+              Dátum
             </Typography>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <FormControl size="small" sx={{ width: '70%' }}>
+              <Select
+              value={surveyFilter.dateFilterType}
+              onChange={(e) => setSurveyFilter({...surveyFilter, dateFilterType: e.target.value})}
+              sx={{
+                '& .MuiSelect-select': {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  pr: 4 
+                }
+              }}
+              renderValue={(value) => {
+                const options = {
+                  contains: 'Tartalmazza',
+                  startsWith: 'Kezdődik...',
+                  endsWith: 'Végződik...',
+                  equals: 'Egyezik...'
+                };
+                return options[value] || value;
+              }}
+            >
+                  <MenuItem value="contains">Tartalmazza</MenuItem>
+                  <MenuItem value="startsWith">Ezzel kezdődik</MenuItem>
+                  <MenuItem value="endsWith">Ezzel végződik</MenuItem>
+                  <MenuItem value="equals">Pontosan egyezik</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                size="small"
+                fullWidth
+                value={surveyFilter.date}
+                onChange={(e) => setSurveyFilter({...surveyFilter, date: e.target.value})}
+                placeholder="pl. 2023-05"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon fontSize="small" />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Box>
+          </Box>
+          
+          <Box sx={{ mt: 3 }}>
+            <Typography variant="subtitle2" gutterBottom>
+              Kitöltöttség (%)
+            </Typography>
+            <Slider
+              value={[surveyFilter.completionMin, surveyFilter.completionMax]}
+              onChange={(e, newValue) => setSurveyFilter({
+                ...surveyFilter, 
+                completionMin: newValue[0], 
+                completionMax: newValue[1]
+              })}
+              valueLabelDisplay="auto"
+              min={0}
+              max={100}
+            />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+              <Typography variant="caption">
+                Min: {surveyFilter.completionMin}%
+              </Typography>
+              <Typography variant="caption">
+                Max: {surveyFilter.completionMax}%
+              </Typography>
+            </Box>
+          </Box>
+          
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'space-between' }}>
+            <Button onClick={clearFilter} color="inherit">
+              Törlés
+            </Button>
+            <Button onClick={applyFilter} variant="contained">
+              Szűrés
+            </Button>
           </Box>
         </Box>
-      </Button>
-    ))}
-    {filteredSurveys.length === 0 && surveyFilter.title !== '' && (
-      <Typography sx={{ textAlign: 'center', mt: 2, color: 'text.secondary' }}>
-        Nincs a szűrésnek megfelelő kérdőív
-      </Typography>
-    )}
-  </Card>
-)}
+      </Popover>
+      
+      
+          {displayedSurveys.map(survey => (
+            <Button
+              key={survey.id}
+              onClick={() => {
+                setSelectedSurveyId(survey.id);
+                setShowFirstCard(false);
+                setShowSecondCard(false);
+                setShowThirdCard(false);
+                setShowFourthCard(false);
+                setShowFifthCard(false);
+                setShowSixthCard(true);
+              }}
+              sx={{
+                height: { xs: "auto", sm: "80px" },
+                minHeight: { xs: "80px", sm: "80px" },
+                flexShrink: 0,
+                textAlign: "left",
+                pl: { xs: 2, sm: 4 },
+                fontSize: { xs: "0.9rem", sm: "1.2rem" },
+                mb: 2,
+                width: "100%",
+                display: 'flex',
+                flexDirection: { xs: 'column', sm: 'row' },
+                alignItems: { xs: 'flex-start', sm: 'center' },
+                justifyContent: 'space-between',
+                py: { xs: 2, sm: 0 },
+                whiteSpace: "normal",
+                bgcolor: (theme) => theme.palette.mode === 'light' 
+                  ? 'rgba(255, 255, 255, 1)'
+                  : undefined,
+                boxShadow: (theme) => theme.palette.mode === 'light'
+                  ? '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
+                  : '0 1px 3px rgba(179, 179, 179, 0.36), 0 1px 2px rgba(179, 179, 179, 0.31)',
+              }}
+              variant="outlined"
+            >
+              <Typography 
+                component="span" 
+                sx={{ 
+                  fontSize: { xs: '0.9rem', sm: '1.2rem' },
+                  mb: { xs: 1, sm: 0 },
+                  width: { xs: '100%', sm: 'auto' },
+                  wordBreak: "break-word"
+                }}
+              >
+                {survey.title}
+              </Typography>
+              
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: { xs: 'row', sm: 'row' }, 
+                alignItems: 'center', 
+                gap: { xs: 1, sm: 2 }, 
+                mr: { xs: 0, sm: 2 },
+                width: { xs: '100%', sm: 'auto' },
+                justifyContent: { xs: 'space-between', sm: 'flex-end' }
+              }}>
+                <Typography
+                  component="span"
+                  sx={{
+                    width: "auto",
+                    minWidth: { xs: "auto", sm: "150px" },
+                    height: { xs: "auto", sm: "37px" },
+                    borderRadius: "10px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: "0 10px",
+                    fontSize: { xs: '0.8rem', sm: 'inherit' }
+                  }}
+                >
+                  {survey.created_date}
+                </Typography>
+                <Box sx={{ 
+                  display: 'flex', 
+                  flexDirection: 'column', 
+                  alignItems: 'center',
+                  minWidth: { xs: "60px", sm: "auto" }
+                }}>
+                  <Typography sx={{ fontSize: { xs: '0.8rem', sm: 'inherit' } }}>
+                    {Math.round(survey.completion_percentage)}%
+                  </Typography>
+                  <Typography 
+                    variant="caption" 
+                    sx={{ 
+                      mt: -0.5,
+                      fontSize: { xs: '0.7rem', sm: '0.75rem' }
+                    }}
+                  >
+                    Folyamatban
+                  </Typography>
+                </Box>
+              </Box>
+            </Button>
+          ))}
+          {filteredSurveys.length === 0 && surveyFilter.title !== '' && (
+            <Typography sx={{ textAlign: 'center', mt: 2, color: 'text.secondary' }}>
+              Nincs a szűrésnek megfelelő kérdőív
+            </Typography>
+          )}
+        </Card>
+      )}
 
       {/* Második Card */}
       {!showThirdCard && !showFirstCard && showSecondCard && (
@@ -1818,7 +1807,7 @@ const handleCardDialogClose = (cardName) => {
     variant="outlined"
     sx={{
       top: "4px",
-      mt: 7,
+      mt: { xs: 0, sm: 7 },
       width: "95% !important",
       height: "70vh",
       maxWidth: "700px !important",
@@ -1918,7 +1907,6 @@ const handleCardDialogClose = (cardName) => {
             }}
            />
 
-
       <Typography
         component="h1"
         variant="subtitle2"
@@ -1929,8 +1917,6 @@ const handleCardDialogClose = (cardName) => {
       >
       Válaszadás típusa
       </Typography>
-
-
 
       <Box
       sx={{
@@ -1951,6 +1937,8 @@ const handleCardDialogClose = (cardName) => {
             borderRadius: "20px",
             margin: "0 4px",
           },
+          flexDirection: { xs: "column", sm: "row" },
+          width: { xs: "100%", sm: "auto" },
         }}
       >
         <Button
@@ -1959,6 +1947,8 @@ const handleCardDialogClose = (cardName) => {
             backgroundColor: question.selectedButton === "radio" ? "#1976d2" : "transparent",
             color: question.selectedButton === "radio" ? "#fff" : "inherit",
             opacity: question.selectedButton === 'radio' ? 1 : 0.5,
+            width: { xs: "100%", sm: "auto" },
+            mb: { xs: 1, sm: 0 },
           }}
         >
           {<RadioButtonCheckedIcon />} Feleletválasztó
@@ -1969,6 +1959,8 @@ const handleCardDialogClose = (cardName) => {
             backgroundColor: question.selectedButton === "checkbox" ? "#1976d2" : "transparent",
             color: question.selectedButton === "checkbox" ? "#fff" : "inherit",
             opacity: question.selectedButton === 'checkbox' ? 1 : 0.5,
+            width: { xs: "100%", sm: "auto" },
+            mb: { xs: 1, sm: 0 },
           }}
         >
           {<CheckBoxIcon />} Jelölőnégyzet
@@ -1979,6 +1971,7 @@ const handleCardDialogClose = (cardName) => {
             backgroundColor: question.selectedButton === "text" ? "#1976d2" : "transparent",
             color: question.selectedButton === "text" ? "#fff" : "inherit",
             opacity: question.selectedButton === 'text' ? 1 : 0.5,
+            width: { xs: "100%", sm: "auto" },
           }}
         >
           {<TextFieldsIcon />} Szöveges válasz
@@ -1988,21 +1981,26 @@ const handleCardDialogClose = (cardName) => {
 
     <Box sx={{ width: 500, maxWidth: '100%' }}>
     {question.selectedButton === "radio" && (
-          <RadioGroup>
+          <RadioGroup sx={{ width: "100%" }}>
             {question.options.map((option) => (
-              <Box key={option.id} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <Box key={option.id} sx={{ display: "flex", alignItems: "center", mb: 1, flexWrap: { xs: "wrap", sm: "nowrap" },
+              width: "100%" }}>
                 <Radio />
                 <TextField
                   placeholder={`Option ${question.options.indexOf(option) + 1}`}
                   value={option.label}
                   onChange={(e) => handleLabelChange(question.id, option.id, e.target.value)}
-                  sx={{ ml: 2 }}
+                  sx={{ 
+                    ml: 2,
+                    flexGrow: 1,
+                    width: { xs: "calc(100% - 80px)", sm: "auto" }, 
+                    mr: { xs: 1, sm: 2 }
+                  }}
                 />
                   <Button
                   onClick={() => handleRemoveOption(question.id, option.id)}
                   color="error"
                   sx={{
-                    ml: 30,
                     minWidth: "30px",
                     padding: "4px",
                     borderRadius: "20%",
@@ -2016,21 +2014,26 @@ const handleCardDialogClose = (cardName) => {
         )}
 
         {question.selectedButton === "checkbox" && (
-          <FormGroup>
+          <FormGroup sx={{ width: "100%" }}>
             {question.options.map((option) => (
-              <Box key={option.id} sx={{ display: "flex", alignItems: "center", mb: 1 }}>
+              <Box key={option.id} sx={{ display: "flex", alignItems: "center", mb: 1, flexWrap: { xs: "wrap", sm: "nowrap" },
+              width: "100%" }}>
                 <Checkbox />
                 <TextField
                   placeholder={`Option ${question.options.indexOf(option) + 1}`}
                   value={option.label}
                   onChange={(e) => handleLabelChange(question.id, option.id, e.target.value)}
-                  sx={{ ml: 2 }}
+                  sx={{ 
+                    ml: 2,
+                    flexGrow: 1, 
+                    width: { xs: "calc(100% - 80px)", sm: "auto" },
+                    mr: { xs: 1, sm: 2 }
+                  }}
                 />
                 <Button
           onClick={() => handleRemoveOption(question.id, option.id)}
           color="error"
           sx={{
-            ml: 30,
             minWidth: "30px",
             padding: "4px",
             borderRadius: "20%",
@@ -2072,7 +2075,6 @@ const handleCardDialogClose = (cardName) => {
     </Button>
   )}
 
-
 {index > 0 && (
   <Button
     onClick={() => handleRemoveQuestion(question.id)}
@@ -2090,16 +2092,8 @@ const handleCardDialogClose = (cardName) => {
   </Button>
 )}
 
-
-
-  
-          
-    
   </Container>
   ))}
-
-
-
 
       <Button
         onClick={handleAddQuestion}
@@ -2115,9 +2109,6 @@ const handleCardDialogClose = (cardName) => {
         Kérdés hozzáadása
       </Button>
 
-
-
-
       <Typography 
         component="h1" 
         variant="subtitle1" 
@@ -2129,8 +2120,6 @@ const handleCardDialogClose = (cardName) => {
       >
         Költség: {questionsCost} kredit
       </Typography>
-
-
       <Box
         sx={{
           display: "flex",
@@ -2161,8 +2150,6 @@ const handleCardDialogClose = (cardName) => {
           Tovább
         </Button>
       </Box>
-
-
           <Button
             onClick={handleCloseKerd}
             sx={{
@@ -2178,7 +2165,6 @@ const handleCardDialogClose = (cardName) => {
               justifyContent: "center",
             }}
             >
-            
               <CloseIcon
                 sx={{
                   width: "22px",
@@ -2186,7 +2172,6 @@ const handleCardDialogClose = (cardName) => {
                 }}
               />
           </Button>
-
         </Card>
         )}
         {/* Harmadik Card */}
