@@ -28,12 +28,13 @@
 <img src="https://img.shields.io/badge/datefns-770C56.svg?style=flat&logo=date-fns&logoColor=white" alt="datefns">
 <img src="https://img.shields.io/badge/Chart.js-FF6384.svg?style=flat&logo=chartdotjs&logoColor=white" alt="Chart.js">
 <img src="https://img.shields.io/badge/Jest-C21325.svg?style=flat&logo=Jest&logoColor=white" alt="Jest">
-
 </div>
+
+<br>
+
 <div align="center">
 <img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
 </div>
-<br>
 
 ---
 
