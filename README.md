@@ -167,4 +167,8 @@ A főbb jellemzők:
 
 <hr>
 
+🔗 **Weben is elérhető:** [optify-survey.vercel.app](https://optify-survey.vercel.app)  
+
+<hr>
+
 <div align="left"><a href="#top">⬆ Return</a></div>
