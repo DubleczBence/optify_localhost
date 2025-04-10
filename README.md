@@ -118,20 +118,14 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 <ol>
   <li>Nyisd meg a frontendet: <a href="http://localhost:3000">http://localhost:3000</a></li>
   <li>Kérdőív készítése, kitöltése, beküldése</li>
-  <li>Eredmények ellenőrzése az admin felületen vagy a statisztikai nézetben</li>
+  <li>Eredmények ellenőrzése a Statisztika oldalon</li>
 </ol>
 
 <h3>Tesztelés</h3>
-<p>A következő parancsokkal tudod futtatni a teszteket:</p>
+<p>A következő parancsal tudod futtatni a teszteket:</p>
 <ul>
   <li><strong>Egységtesztek:</strong>
     <pre><code>❯ npm test</code></pre>
-  </li>
-  <li><strong>Integrációs tesztek (Supertest):</strong>
-    <pre><code>❯ npm run test:integration</code></pre>
-  </li>
-  <li><strong>End-to-end tesztek (Selenium):</strong>
-    <pre><code>❯ npm run test:e2e</code></pre>
   </li>
 </ul>
 
@@ -141,20 +135,15 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 <h2>További információk</h2>
 
-<p>Ha hibát találsz vagy javaslatod van, nyiss egy <a href="https://github.com/DubleczBence/optify_localhost/issues">Issue-t</a> a GitHub repón.</p>
 
-<p>📬 <strong>Kapcsolat:</strong> dublecz.bence@student.uni-neumann.hu<br>
-📁 <strong>Licenc:</strong> MIT<br>
-📢 <strong>Készült a Neumann János Egyetem, GAMF kar fejlesztő és tesztelő képzés keretében.</strong></p>
 
 <hr>
 
 <!-- KÖZREMŰKÖDŐK -->
 
-<h2>Közreműködők</h2>
+<h2>Készítette:</h2>
 <ul>
-  <li>👨‍💻 <strong>Dublecz Bence</strong> – Frontend és backend fejlesztés, dokumentáció</li>
-  <li>🎓 Szoftverfejlesztő és tesztelő hallgató</li>
+  <li> <strong>Jakab Áron</strong>, <strong>Dublecz Bence</strong> </li>
 </ul>
 
 <hr>
@@ -163,20 +152,9 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 <h2>Képernyőképek</h2>
 
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/screen1.png" alt="Kérdőívkészítő felület" width="600"><br><br>
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/screen2.png" alt="Statisztikai nézet" width="600">
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/company-survey-after-login.png" alt="Céges felület" width="600"><br><br>
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/company-survey-create-survey-page.png" alt="Kérdőív létrehozása" width="600">
 
 <hr>
 
-<!-- KÖSZÖNETNYILVÁNÍTÁS -->
-
-<h2>Köszönetnyilvánítás</h2>
-
-<p>Köszönet minden oktatónak, aki támogatta a projekt létrejöttét!<br>
-Külön elismerés illeti a nyílt forráskódú közösséget, akik eszközeikkel segítették a munkát.</p>
-
-<br>
-
-<div align="center">
-  Készült ❤️-ből a fejlesztői közösségnek.
-</div>
+<div align="left"><a href="#top">⬆ Return</a></div>
