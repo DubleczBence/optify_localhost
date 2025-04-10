@@ -133,7 +133,7 @@ A főbb jellemzők:
 <ol>
   <li>Nyisd meg a frontendet: <a href="http://localhost:3000">http://localhost:3000</a></li>
   <li>Kérdőív készítése, kitöltése, beküldése</li>
-  <li><strong>Admin oldalra való belépés:</strong>
+  <li><strong color="red">Admin oldalra való belépés:</strong>
      ⚙️ Email: <strong>admin@admin.com</strong>
      ⚙️ Jelszó: <strong>admin</strong></li>
   <li>Eredmények ellenőrzése a Statisztika oldalon</li>
