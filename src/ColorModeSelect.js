@@ -11,7 +11,6 @@ export default function ColorModeSelect(props) {
   const { mode, setMode } = useColorScheme();
   const { setBackgroundImage } = useBackground();
   
-  // Explicit hivatkozás a MenuItem komponensre, hogy az ESLint ne panaszkodjon
   const MenuItemComponent = MenuItem;
   
   if (!mode) {
@@ -22,19 +21,16 @@ export default function ColorModeSelect(props) {
     const newMode = event.target.value;
     setMode(newMode);
     
-    // Háttérkép beállítása a téma alapján
     if (newMode === 'light') {
       setBackgroundImage('/kepek/new_bg-bright.png');
     } else if (newMode === 'dark') {
       setBackgroundImage('/kepek/new_bg-dark.png');
     } else if (newMode === 'system') {
-      // Rendszer beállítás esetén ellenőrizzük a preferált színsémát
       const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
       setBackgroundImage(prefersDarkMode ? '/kepek/new_bg-dark.png' : '/kepek/new_bg-bright.png');
     }
   };
-  
-  // A téma alapján választjuk ki a megfelelő logót
+ 
   const logoSrc = mode === 'light' ? optifyBright : optifyDark;
   
   return (

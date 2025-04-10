@@ -2204,7 +2204,7 @@ const handleCardDialogClose = (cardName) => {
           participantCount={selectedParticipants}
           creditCost={surveyTotalCost}
           questionsCost={questionsCost}
-          sampleCost={sampleCost}  // Itt adjuk át a mintavétel költségét
+          sampleCost={sampleCost}
           onSuccess={handleSurveySuccess}
           onError={handleSurveyError}
           filterData={filterData}
@@ -2234,9 +2234,9 @@ const handleCardDialogClose = (cardName) => {
   <Box sx={{ 
     position: 'absolute', 
     top: {
-      xs: '310px', // Kisebb képernyőn (mobilon) sokkal lejjebb kezdődik
-      sm: '270px', // Tablet méretben lejjebb
-      md: '180px'  // Asztali méretben az eredeti pozíció
+      xs: '310px',
+      sm: '270px',
+      md: '180px'
     },
     left: 0,
     right: 0,
@@ -2244,9 +2244,9 @@ const handleCardDialogClose = (cardName) => {
     flexDirection: 'column',
     alignItems: 'center',
     maxHeight: {
-      xs: 'calc(100vh - 350px)', // Kisebb képernyőn kisebb maximális magasság
-      sm: 'calc(100vh - 300px)', // Tablet méretben kicsit nagyobb
-      md: '70vh'                 // Asztali méretben az eredeti
+      xs: 'calc(100vh - 350px)',
+      sm: 'calc(100vh - 300px)', 
+      md: '70vh'
     },
     zIndex: 1,
     overflow: 'visible'

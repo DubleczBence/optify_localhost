@@ -32,7 +32,6 @@ class UserController {
     try {
       const userId = req.params.userId;
       
-      // Check if the user is authorized to access these vouchers
       if (req.user.id != userId && req.user.role !== 'admin') {
         return res.status(403).json({ error: 'Unauthorized access to user vouchers' });
       }

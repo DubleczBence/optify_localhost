@@ -47,7 +47,7 @@ class CompanyModel {
   }
 
   static async setResetCode(email, code) {
-    const expiryTime = new Date(Date.now() + 3600000); // 1 óra
+    const expiryTime = new Date(Date.now() + 3600000);
     await db.promise().query(
       'UPDATE companies SET reset_code = ?, reset_code_expires = ? WHERE ceg_email = ?',
       [code, expiryTime, email]

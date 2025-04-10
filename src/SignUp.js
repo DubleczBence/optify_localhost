@@ -76,7 +76,7 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 const IllustrationContainer = styled(Box)(({ theme }) => ({
-  display: 'none', // Mobilon elrejtjük
+  display: 'none',
   [theme.breakpoints.up('md')]: {
     display: 'flex',
     alignItems: 'center',
@@ -439,7 +439,7 @@ export default function SignUp(props) {
 
       <IllustrationContainer>
         <img 
-          key="signup-illustration" // Egyedi kulcs
+          key="signup-illustration"
           src="/kepek/illustration-login.png" 
           alt="Login Illustration" 
           style={{ 
@@ -591,7 +591,7 @@ export default function SignUp(props) {
                             onClick={(e) => {
                               e.stopPropagation();
                               handleClickShowPassword();
-                              // Fókusz megőrzése és kurzor pozíció beállítása a végére
+                            
                               setTimeout(() => {
                                 const input = document.getElementById('password');
                                 if (input) {
@@ -602,8 +602,8 @@ export default function SignUp(props) {
                               }, 0);
                             }}
                             onMouseDown={(e) => {
-                              e.preventDefault(); // Megakadályozza az alapértelmezett eseményt
-                              e.stopPropagation(); // Megakadályozza az esemény továbbterjedését
+                              e.preventDefault();
+                              e.stopPropagation();
                             }}
                             edge="end"
                             disableRipple
@@ -614,8 +614,8 @@ export default function SignUp(props) {
                               boxShadow: 'none',
                               border: 'none',
                               outline: 'none',
-                              height: '30px', // Csökkentett magasság
-                              width: '30px',  // Arányos szélesség
+                              height: '30px',
+                              width: '30px',
                               padding: '4px',
                               margin: 0,
                               '&:hover': {

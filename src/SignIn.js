@@ -75,7 +75,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 
 
 const IllustrationContainer = styled(Box)(({ theme }) => ({
-  display: 'none', // Mobilon elrejtjük
+  display: 'none',
   [theme.breakpoints.up('md')]: {
     display: 'flex',
     alignItems: 'center',
@@ -269,7 +269,7 @@ export default function SignIn(props) {
 
         <IllustrationContainer>
           <img 
-            key="signin-illustration" // Egyedi kulcs
+            key="signin-illustration"
             src="/kepek/illustration-login.png" 
             alt="Login Illustration" 
             style={{ 

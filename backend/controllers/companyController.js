@@ -320,7 +320,6 @@ class CompanyController {
 
       const demographics = await SurveyModel.getSurveyDemographics(surveyId);
 
-      // Csoportosítjuk az adatokat kategóriák szerint
       const result = {
         vegzettseg: {},
         nem: {},
@@ -335,25 +334,19 @@ class CompanyController {
         }
       };
 
-      // Érvényes régió értékek
       const validRegions = ['14', '15', '16', '17', '18', '19'];
 
       demographics.forEach(user => {
-        // Végzettség
         result.vegzettseg[user.vegzettseg] = (result.vegzettseg[user.vegzettseg] || 0) + 1;
         
-        // Nem
         result.nem[user.nem] = (result.nem[user.nem] || 0) + 1;
         
-        // Régió - csak érvényes értékeket adunk hozzá
         if (validRegions.includes(user.regio)) {
           result.regio[user.regio] = (result.regio[user.regio] || 0) + 1;
         }
         
-        // Anyagi helyzet
         result.anyagi[user.anyagi] = (result.anyagi[user.anyagi] || 0) + 1;
         
-        // Korcsoport
         const age = user.eletkor;
         if (age <= 25) result.korcsoport['18-25']++;
         else if (age <= 35) result.korcsoport['26-35']++;

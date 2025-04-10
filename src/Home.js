@@ -207,7 +207,6 @@ const TextCarousel = () => {
     return () => clearInterval(interval);
   }, [messages.length]);
 
-  // Animation for text
   const [textProps, api] = useSpring(() => ({
     opacity: 1,
     transform: 'translateY(0)',
@@ -253,7 +252,6 @@ const TextCarousel = () => {
         </Typography>
       </animated.div>
 
-      {/* Indicator dots */}
       <Box sx={{ 
         display: 'flex', 
         justifyContent: 'center', 
@@ -489,10 +487,9 @@ const ProfileDialog = ({ open, onClose, userData, onSave, userVouchers }) => {
               justifyContent: 'flex-start'
             }}>
               {userVouchers.map((voucher) => {
-                // Kép kiválasztása a kupon neve alapján
+              
                 let imageName = 'default.png';
                 
-                // Keressük meg a megfelelő képet a voucherOptions alapján
                 voucherOptions.forEach(category => {
                   category.items.forEach(item => {
                     if (item.name === voucher.name || 
@@ -857,7 +854,6 @@ const Home = ({ onSignOut, onSendData }) => {
 
   const fetchCredits = useCallback(async () => {
     try {
-      // Használjuk a get függvényt a fetch helyett
       const data = await get(`/users/credits/${userId}`);
       setCredits(data.credits);
     } catch (error) {

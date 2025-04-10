@@ -57,16 +57,15 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
       try {
         const data = await get(`/companies/credit-history/${localStorage.getItem('cegId')}`);
         
-        // Ellenőrizzük, hogy a data egy tömb-e
         if (Array.isArray(data)) {
           setCreditHistory(data);
         } else {
           console.error('Expected array but got:', data);
-          setCreditHistory([]); // Üres tömböt állítunk be, ha nem tömböt kaptunk
+          setCreditHistory([]);
         }
       } catch (error) {
         console.error('Error fetching credit history:', error);
-        setCreditHistory([]); // Hiba esetén üres tömböt állítunk be
+        setCreditHistory([]);
       }
     };
     fetchCreditHistory();
@@ -98,10 +97,9 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
         setCreditHistory(historyData);
       } else {
         console.error('Expected array but got:', historyData);
-        setCreditHistory([]); // Üres tömböt állítunk be, ha nem tömböt kaptunk
+        setCreditHistory([]);
       }
       
-      // Close the dialog
       setConfirmDialogOpen(false);
     } catch (error) {
       console.error('Error purchasing credits:', error);
@@ -162,8 +160,8 @@ const CreditPurchase = ({ currentCredits, onPurchase }) => {
               pl: 4,
               mb: 2,
               borderRadius: "10px",
-              opacity: 0.9, // Nagyobb opacitás (kevésbé átlátszó)
-              backgroundColor: "rgba(255, 255, 255, 0.9)", // Fehér háttér nagyobb opacitással
+              opacity: 0.9,
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
             }}
             variant="outlined"
           >
