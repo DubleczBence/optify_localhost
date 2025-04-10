@@ -29,6 +29,8 @@
 <img src="https://img.shields.io/badge/Chart.js-FF6384.svg?style=flat&logo=chartdotjs&logoColor=white" alt="Chart.js">
 <img src="https://img.shields.io/badge/Jest-C21325.svg?style=flat&logo=Jest&logoColor=white" alt="Jest">
 
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
+
 </div>
 <br>
 
@@ -157,10 +159,6 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 <ul>
   <li> <strong>Jakab Áron</strong>, <strong>Dublecz Bence</strong> </li>
 </ul>
-
-<hr>
-
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
 
 <hr>
 
