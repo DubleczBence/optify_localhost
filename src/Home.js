@@ -81,9 +81,9 @@ const Card = styled(MuiCard)(({ theme }) => ({
   padding: theme.spacing(4),
   gap: theme.spacing(2),
   margin: 'auto',
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(4),
-  overflow: 'auto !important',
+  marginTop: 0, 
+  marginBottom: 0, 
+  overflow: 'auto',
   maxHeight: '70vh',
   backgroundColor: theme.palette.mode === 'light' 
     ? 'rgba(255, 255, 255, 0.55) !important'
@@ -92,6 +92,7 @@ const Card = styled(MuiCard)(({ theme }) => ({
     'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
   [theme.breakpoints.up('sm')]: {
     width: '700px',
+    marginBottom: 0,
   },
   ...theme.applyStyles('dark', {
     boxShadow:
@@ -113,32 +114,43 @@ const Card = styled(MuiCard)(({ theme }) => ({
 
 
 const UserContainer = styled(Stack)(({ theme }) => ({
-  height: '100vh', // Set to 100vh to take full viewport height
+  height: '100vh',
   width: '100%',
-  padding: theme.spacing(2),
-  overflowY: 'auto !important', // Force vertical scrolling
+  padding: 0,
+  marginTop: 5,
+  overflow: 'hidden',
   overflowX: 'hidden',
+  overflowY: 'hidden',
   display: 'flex',
   flexDirection: 'column',
-  position: 'relative', // Ensure proper stacking context
-  [theme.breakpoints.up('sm')]: {
-    padding: theme.spacing(4),
+  position: 'relative',
+  
+  [theme.breakpoints.down('sm')]: {
+    overflowY: 'auto',
+    padding: theme.spacing(2),
+    paddingBottom: theme.spacing(8),
   },
+  
   '&::before': {
     content: '""',
-    position: 'fixed', // Change to fixed so it doesn't affect scrolling
+    position: 'fixed',
     inset: 0,
-    backgroundColor: theme.palette.mode === 'light' 
+    backgroundColor: theme.palette.mode === 'light'
       ? 'rgba(255, 255, 255, 0.2)'
       : 'rgba(0, 0, 0, 0.2)',
     zIndex: -1,
     pointerEvents: 'none',
-  }
+  },
+  
+  '&::-webkit-scrollbar': {
+    display: 'none',
+    width: 0,
+  },
 }));
 
 
 const IllustrationContainer = styled(Box)(({ theme }) => ({
-  display: 'none', // Mobilon elrejtjük
+  display: 'none',
   [theme.breakpoints.up('md')]: {
     display: 'flex',
     alignItems: 'center',
