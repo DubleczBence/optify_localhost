@@ -108,7 +108,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
   </li>
   <li><strong>Telepítsd a függőségeket:</strong>
     <pre><code>❯ npm install</code></pre>
-    <p><strong>Az adatbázis beállítása:</strong> A projekt használatához szükséges egy működő MySQL adatbázis, amelyet a <code>XAMPP</code> segítségével indíthatsz el. A csomag tartalmaz egy <code>survey_app_local.sql</code> fájlt, amely az adatbázis sémáját tartalmazza. Ezt a következőképpen tudod importálni:</p>
+    <p><strong>3. Az adatbázis beállítása:</strong> A projekt használatához szükséges egy működő MySQL adatbázis, amelyet a <code>XAMPP</code> segítségével indíthatsz el. A csomag tartalmaz egy <code>survey_app_local.sql</code> fájlt, amely az adatbázis sémáját tartalmazza. Ezt a következőképpen tudod importálni:</p>
     <ul>
       <li>Indítsd el a <strong>MySQL modult</strong> a XAMPP kezelőfelületen.</li>
       <li>Nyisd meg a <strong>phpMyAdmin</strong>-t a böngészőben (általában <code>http://localhost/phpmyadmin</code>).</li>
