@@ -85,21 +85,97 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 ---
 
-## Első lépések
+<!-- TELEPÍTÉS -->
 
-### Előfeltételek
+<h2>Első lépések</h2>
 
-A projekt futtatásához az alábbiak szükségesek:
+<h3>Előfeltételek</h3>
+<p>A projekt futtatásához az alábbiak szükségesek:</p>
+<ul>
+  <li><strong>Programozási nyelv:</strong> JavaScript</li>
+  <li><strong>Csomagkezelő:</strong> Npm</li>
+  <li><strong>Konténer runtime:</strong> Docker (opcionális)</li>
+</ul>
 
-- **Programozási nyelv:** JavaScript
-- **Csomagkezelő:** Npm
-- **Konténer runtime:** Docker (opcionális)
+<h3>Telepítés</h3>
+<ol>
+  <li><strong>Repo klónozása:</strong>
+    <pre><code>❯ git clone https://github.com/DubleczBence/optify_localhost</code></pre>
+  </li>
+  <li><strong>Lépj be a mappába:</strong>
+    <pre><code>❯ cd optify_localhost</code></pre>
+  </li>
+  <li><strong>Telepítsd a függőségeket:</strong>
+    <pre><code>❯ npm install</code></pre>
+  </li>
+  <li><strong>Indítsd el a szervert:</strong>
+    <pre><code>❯ node app.js</code></pre>
+  </li>
+</ol>
 
-### Telepítés
+<h3>Használat</h3>
+<ol>
+  <li>Nyisd meg a frontendet: <a href="http://localhost:3000">http://localhost:3000</a></li>
+  <li>Kérdőív készítése, kitöltése, beküldése</li>
+  <li>Eredmények ellenőrzése az admin felületen vagy a statisztikai nézetben</li>
+</ol>
 
-Az optify_localhost forrásból építhető és telepíthető:
+<h3>Tesztelés</h3>
+<p>A következő parancsokkal tudod futtatni a teszteket:</p>
+<ul>
+  <li><strong>Egységtesztek:</strong>
+    <pre><code>❯ npm test</code></pre>
+  </li>
+  <li><strong>Integrációs tesztek (Supertest):</strong>
+    <pre><code>❯ npm run test:integration</code></pre>
+  </li>
+  <li><strong>End-to-end tesztek (Selenium):</strong>
+    <pre><code>❯ npm run test:e2e</code></pre>
+  </li>
+</ul>
 
-1. **Repo klónozása:**
+<hr>
 
-```sh
-❯ git clone https://github.com/DubleczBence/optify_localhost
+<!-- TOVÁBBI INFORMÁCIÓK -->
+
+<h2>További információk</h2>
+
+<p>Ha hibát találsz vagy javaslatod van, nyiss egy <a href="https://github.com/DubleczBence/optify_localhost/issues">Issue-t</a> a GitHub repón.</p>
+
+<p>📬 <strong>Kapcsolat:</strong> dublecz.bence@student.uni-neumann.hu<br>
+📁 <strong>Licenc:</strong> MIT<br>
+📢 <strong>Készült a Neumann János Egyetem, GAMF kar fejlesztő és tesztelő képzés keretében.</strong></p>
+
+<hr>
+
+<!-- KÖZREMŰKÖDŐK -->
+
+<h2>Közreműködők</h2>
+<ul>
+  <li>👨‍💻 <strong>Dublecz Bence</strong> – Frontend és backend fejlesztés, dokumentáció</li>
+  <li>🎓 Szoftverfejlesztő és tesztelő hallgató</li>
+</ul>
+
+<hr>
+
+<!-- KÉPERNYŐKÉPEK -->
+
+<h2>Képernyőképek</h2>
+
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/screen1.png" alt="Kérdőívkészítő felület" width="600"><br><br>
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/screen2.png" alt="Statisztikai nézet" width="600">
+
+<hr>
+
+<!-- KÖSZÖNETNYILVÁNÍTÁS -->
+
+<h2>Köszönetnyilvánítás</h2>
+
+<p>Köszönet minden oktatónak, aki támogatta a projekt létrejöttét!<br>
+Külön elismerés illeti a nyílt forráskódú közösséget, akik eszközeikkel segítették a munkát.</p>
+
+<br>
+
+<div align="center">
+  Készült ❤️-ből a fejlesztői közösségnek.
+</div>
