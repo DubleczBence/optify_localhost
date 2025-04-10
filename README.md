@@ -152,8 +152,8 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 <h2>Képernyőképek</h2>
 
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/company-survey-after-login.png" alt="Céges felület" width="600"><br><br>
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/company-survey-create-survey-page.png" alt="Kérdőív létrehozása" width="600">
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-after-login.png" alt="Céges felület" width="600"><br><br>
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-create-survey-page.png" alt="Kérdőív létrehozása" width="600">
 
 <hr>
 
