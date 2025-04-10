@@ -76,7 +76,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 | :--- | :--------------- | :------------------------------------- |
 | ⚙️  | **Architektúra**   | <ul><li>Mikroszolgáltatásos architektúra</li><li>Frontend (React), Backend (Node.js)</li><li>RESTful API</li></ul> |
 | 🔩 | **Kódszabvány**     | <ul><li>ESLint a linteléshez</li><li>Prettier a formázáshoz</li><li>Konzisztens kódstílus</li></ul> |
-| 🔌 | **Integrációk**     | <ul><li>Firebase az autentikációhoz</li><li>MySQL az adatbáziskezeléshez</li><li>Chart.js és MUI az adatmegjelenítéshez</li></ul> |
+| 🔌 | **Integrációk**     | <ul><li>MySQL az adatbáziskezeléshez</li><li>Chart.js és MUI az adatmegjelenítéshez</li></ul> |
 | 🧩 | **Modularitás**     | <ul><li>Frontend és backend elkülönítve</li><li>Újrahasználható React komponensek</li><li>Moduláris route-ok és controllerek</li></ul> |
 | 🧪 | **Tesztelés**       | <ul><li>Jest az egységtesztekhez</li><li>Supertest az integrációs tesztekhez</li><li>Selenium WebDriver az E2E tesztekhez</li></ul> |
 | ⚡️  | **Teljesítmény**   | <ul><li>React.memo a teljesítményoptimalizáláshoz</li><li>Hatékony SQL lekérdezések</li><li>Lazy loading</li></ul> |
