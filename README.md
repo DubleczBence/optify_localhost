@@ -66,7 +66,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 🔗 **Frontend kód (React):** [GitHub - optify_localhost](https://github.com/DubleczBence/optify_localhost)  
 🔗 **Backend indítása:** [`cd backend && node app.js`](https://github.com/DubleczBence/optify_localhost/tree/main/backend)  
 🔗 **Webes változat külön repo-ban:** [GitHub - optify](https://github.com/DubleczBence/optify)  
-📄 **Dokumentáció (Word):** [Letöltés innen](https://github.com/DubleczBence/optify_localhost/blob/main/docs/Optify_Dokumentacio.docx)
+📄 **Dokumentáció (Word):** [Letöltés innen](https://github.com/DubleczBence/optify_localhost/blob/main/docs/optify_dokumentacio (1).docx)
 
 ---
 
