@@ -160,4 +160,8 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 <hr>
 
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
+
+<hr>
+
 <div align="left"><a href="#top">⬆ Return</a></div>
