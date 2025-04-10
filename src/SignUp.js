@@ -542,7 +542,7 @@ export default function SignUp(props) {
                     required
                     fullWidth
                     id="name"
-                    placeholder="Gipsz Jakab"
+                    placeholder="Név"
                     value={name}
                     onChange={handleNameChange}
                     error={nameError}
@@ -556,7 +556,7 @@ export default function SignUp(props) {
                     required
                     fullWidth
                     id="email"
-                    placeholder="gipszjakab@email.com"
+                    placeholder="optify@email.com"
                     value={email}
                     onChange={handleEmailChange}
                     name="email"

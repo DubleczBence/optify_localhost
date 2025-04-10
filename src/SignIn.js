@@ -374,7 +374,7 @@ export default function SignIn(props) {
                 id="email"
                 type="email"
                 name="email"
-                placeholder="gipszjakab@email.com"
+                placeholder="optify@email.com"
                 value={email}
                 onChange={handleEmailChange}
                 autoComplete="email"

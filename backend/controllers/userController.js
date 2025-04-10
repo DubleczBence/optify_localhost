@@ -206,38 +206,31 @@ class UserController {
     console.log('Received transaction data:', req.body);
   
     try {
-      // Kezdjük a tranzakciót
       await db.promise().query('START TRANSACTION');
   
-      // Tranzakció létrehozása
       const [transactionResult] = await db.promise().query(
         'INSERT INTO transactions (amount, transaction_type, transaction_date) VALUES (?, ?, NOW())',
         [amount, 'survey']
       );
       const transactionId = transactionResult.insertId;
   
-      // Kapcsolat létrehozása a felhasználó és a tranzakció között
       await db.promise().query(
         'INSERT INTO user_connections (user_id, connection_type, connection_id, created_at) VALUES (?, ?, ?, NOW())',
         [userId, 'transaction', transactionId]
       );
-  
-      // Kapcsolat létrehozása a kérdőív és a tranzakció között
+
       await db.promise().query(
         'INSERT INTO survey_connections (survey_id, connection_type, connection_id, created_at) VALUES (?, ?, ?, NOW())',
         [surveyId, 'transaction', transactionId]
       );
   
-      // Felhasználó kreditjeinek frissítése
       await db.promise().query(
         'UPDATE users SET credits = credits + ? WHERE id = ?',
         [amount, userId]
       );
   
-      // Commit a tranzakciót
       await db.promise().query('COMMIT');
   
-      // Lekérjük a frissített kredit egyenleget
       const [userResult] = await db.promise().query(
         'SELECT credits FROM users WHERE id = ?',
         [userId]
@@ -251,11 +244,9 @@ class UserController {
       console.error('Error adding survey transaction:', error);
 
       try {
-        // Próbáljuk meg végrehajtani a ROLLBACK utasítást
         await db.promise().query('ROLLBACK');
       } catch (rollbackError) {
         console.error('Error during rollback:', rollbackError);
-        // Nem dobunk újabb hibát, csak naplózzuk
       }
       
       res.status(500).json({ error: 'Failed to add transaction' });
@@ -278,13 +269,13 @@ class UserController {
   }
 
   static async updateProfile(req, res) {
-    const { name, regio, anyagi } = req.body;
+    const { name, regio, anyagi, vegzettseg } = req.body;
     const userId = req.params.userId;
     
     try {
       await db.promise().query('START TRANSACTION');
       
-      await UserModel.updateProfile(userId, { name, regio, anyagi });
+      await UserModel.updateProfile(userId, { name, regio, anyagi, vegzettseg });
       
       await db.promise().query('COMMIT');
       
@@ -292,7 +283,7 @@ class UserController {
       
       res.json({ 
         message: 'User profile updated successfully',
-        updatedData: updatedUser || { name, regio, anyagi }
+        updatedData: updatedUser || { name, regio, anyagi, vegzettseg }
       });
     } catch (error) {
       await db.promise().query('ROLLBACK');
