@@ -108,9 +108,18 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
   </li>
   <li><strong>Telepítsd a függőségeket:</strong>
     <pre><code>❯ npm install</code></pre>
+    <p><strong>Az adatbázis beállítása:</strong> A projekt használatához szükséges egy működő MySQL adatbázis, amelyet a <code>XAMPP</code> segítségével indíthatsz el. A csomag tartalmaz egy <code>survey_app_local.sql</code> fájlt, amely az adatbázis sémáját tartalmazza. Ezt a következőképpen tudod importálni:</p>
+    <ul>
+      <li>Indítsd el a <strong>MySQL modult</strong> a XAMPP kezelőfelületen.</li>
+      <li>Nyisd meg a <strong>phpMyAdmin</strong>-t a böngészőben (általában <code>http://localhost/phpmyadmin</code>).</li>
+      <li>Hozz létre egy új adatbázist például <code>survey_app_local</code> néven.</li>
+      <li>Importáld a <code>survey_app_local.sql</code> fájlt a létrehozott adatbázisba.</li>
+    </ul>
+    <p>Az alkalmazás automatikusan ehhez az adatbázishoz csatlakozik a <code>backend/config/db.js</code> fájlban definiált kapcsolati beállításokon keresztül.</p>
   </li>
   <li><strong>Indítsd el a szervert:</strong>
-    <pre><code>❯ cd backend</code></pre><pre><code>❯ node app.js</code></pre>
+    <pre><code>❯ cd backend</code></pre>
+    <pre><code>❯ node app.js</code></pre>
   </li>
 </ol>
 
@@ -131,11 +140,12 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 <hr>
 
-<!-- TOVÁBBI INFORMÁCIÓK -->
+<!-- KÉPERNYŐKÉPEK -->
 
-<h2>További információk</h2>
+<h2>Képernyőképek</h2>
 
-
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-after-login.png" alt="Céges felület" width="600"><br><br>
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-create-survey-page.png" alt="Kérdőív létrehozása" width="600">
 
 <hr>
 
@@ -145,15 +155,6 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 <ul>
   <li> <strong>Jakab Áron</strong>, <strong>Dublecz Bence</strong> </li>
 </ul>
-
-<hr>
-
-<!-- KÉPERNYŐKÉPEK -->
-
-<h2>Képernyőképek</h2>
-
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-after-login.png" alt="Céges felület" width="600"><br><br>
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-create-survey-page.png" alt="Kérdőív létrehozása" width="600">
 
 <hr>
 
