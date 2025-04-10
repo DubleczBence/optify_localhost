@@ -57,7 +57,7 @@ Az <strong>optify_localhost</strong> egy kérdőívkészítő alkalmazás cégek
 
 **Miért válaszd az optify_localhost-ot?**
 
-A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhasználói élményt. A főbb jellemzők:
+A főbb jellemzők:
 
 - 🎛️ **Helyi adatbázis telepítés:** Gyors beállítás minimális konfigurációval.
 - 🚀 **React alapú felépítés:** Jól strukturált architektúra a hatékony fejlesztéshez.
