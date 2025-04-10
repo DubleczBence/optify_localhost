@@ -28,9 +28,13 @@
 <img src="https://img.shields.io/badge/datefns-770C56.svg?style=flat&logo=date-fns&logoColor=white" alt="datefns">
 <img src="https://img.shields.io/badge/Chart.js-FF6384.svg?style=flat&logo=chartdotjs&logoColor=white" alt="Chart.js">
 <img src="https://img.shields.io/badge/Jest-C21325.svg?style=flat&logo=Jest&logoColor=white" alt="Jest">
-
 </div>
+
 <br>
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/src/kepek/optify-dark.png" alt="Optify logó" width="200">
+</div>
 
 ---
 
@@ -49,11 +53,11 @@
 
 ## Áttekintés
 
-Az **optify_localhost** egy hatékony fejlesztői eszköz, amely leegyszerűsíti a kérdőíves alkalmazások létrehozását és kezelését. Robusztus backenddel és interaktív frontenddel rendelkezik a gördülékeny fejlesztés érdekében.
+Az <strong>optify_localhost</strong> egy kérdőívkészítő alkalmazás cégek és egyéni felhasználók számára. Lehetővé teszi kérdőívek gyors és egyszerű létrehozását, a célközönség szűrését, valamint a válaszok részletes elemzését a statisztika oldalon.
 
 **Miért válaszd az optify_localhost-ot?**
 
-A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhasználói élményt. A főbb jellemzők:
+A főbb jellemzők:
 
 - 🎛️ **Helyi adatbázis telepítés:** Gyors beállítás minimális konfigurációval.
 - 🚀 **React alapú felépítés:** Jól strukturált architektúra a hatékony fejlesztéshez.
@@ -66,7 +70,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 🔗 **Frontend kód (React):** [GitHub - optify_localhost](https://github.com/DubleczBence/optify_localhost)  
 🔗 **Backend indítása:** [`cd backend && node app.js`](https://github.com/DubleczBence/optify_localhost/tree/main/backend)  
 🔗 **Webes változat külön repo-ban:** [GitHub - optify](https://github.com/DubleczBence/optify)  
-📄 **Dokumentáció (Word):** [Letöltés innen](https://github.com/DubleczBence/optify_localhost/blob/main/docs/optify_dokumentacio (1).docx)
+📄 <strong>Dokumentáció (PDF):</strong> <a href="https://github.com/DubleczBence/optify_localhost/blob/main/optify_dokumentacio.pdf" target="_blank">Letöltés innen</a>
 
 ---
 
@@ -76,7 +80,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 | :--- | :--------------- | :------------------------------------- |
 | ⚙️  | **Architektúra**   | <ul><li>Mikroszolgáltatásos architektúra</li><li>Frontend (React), Backend (Node.js)</li><li>RESTful API</li></ul> |
 | 🔩 | **Kódszabvány**     | <ul><li>ESLint a linteléshez</li><li>Prettier a formázáshoz</li><li>Konzisztens kódstílus</li></ul> |
-| 🔌 | **Integrációk**     | <ul><li>Firebase az autentikációhoz</li><li>MySQL az adatbáziskezeléshez</li><li>Chart.js és MUI az adatmegjelenítéshez</li></ul> |
+| 🔌 | **Integrációk**     | <ul><li>MySQL az adatbáziskezeléshez</li><li>Chart.js és MUI az adatmegjelenítéshez</li></ul> |
 | 🧩 | **Modularitás**     | <ul><li>Frontend és backend elkülönítve</li><li>Újrahasználható React komponensek</li><li>Moduláris route-ok és controllerek</li></ul> |
 | 🧪 | **Tesztelés**       | <ul><li>Jest az egységtesztekhez</li><li>Supertest az integrációs tesztekhez</li><li>Selenium WebDriver az E2E tesztekhez</li></ul> |
 | ⚡️  | **Teljesítmény**   | <ul><li>React.memo a teljesítményoptimalizáláshoz</li><li>Hatékony SQL lekérdezések</li><li>Lazy loading</li></ul> |
@@ -109,7 +113,18 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
   <li><strong>Telepítsd a függőségeket:</strong>
     <pre><code>❯ npm install</code></pre>
   </li>
+  <li>
+      <p><strong> Az adatbázis beállítása:</strong> A projekt használatához szükséges egy működő MySQL adatbázis, amelyet a <code>XAMPP</code> segítségével indíthatsz el. A csomag tartalmaz egy <code>survey_app_local.sql</code> fájlt, amely az adatbázis sémáját tartalmazza. Ezt a következőképpen tudod importálni:</p>
+    <ul>
+      <li>Indítsd el a <strong>MySQL modult</strong> a XAMPP kezelőfelületen.</li>
+      <li>Nyisd meg a <strong>phpMyAdmin</strong>-t a böngészőben (általában <code>http://localhost/phpmyadmin</code>).</li>
+      <li>Hozz létre egy új adatbázist például <code>survey_app_local</code> néven.</li>
+      <li>Importáld a <code>survey_app_local.sql</code> fájlt a létrehozott adatbázisba.</li>
+    </ul>
+    <p>Az alkalmazás automatikusan ehhez az adatbázishoz csatlakozik a <code>backend/config/db.js</code> fájlban definiált kapcsolati beállításokon keresztül.</p>
+  </li>
   <li><strong>Indítsd el a szervert:</strong>
+    <pre><code>❯ cd backend</code></pre>
     <pre><code>❯ node app.js</code></pre>
   </li>
 </ol>
@@ -118,43 +133,15 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 <ol>
   <li>Nyisd meg a frontendet: <a href="http://localhost:3000">http://localhost:3000</a></li>
   <li>Kérdőív készítése, kitöltése, beküldése</li>
-  <li>Eredmények ellenőrzése az admin felületen vagy a statisztikai nézetben</li>
+  <li>Eredmények ellenőrzése a Statisztika oldalon</li>
 </ol>
 
 <h3>Tesztelés</h3>
-<p>A következő parancsokkal tudod futtatni a teszteket:</p>
+<p>A következő parancsal tudod futtatni a teszteket:</p>
 <ul>
-  <li><strong>Egységtesztek:</strong>
+  <li><strong>Frontend és Backend:</strong>
     <pre><code>❯ npm test</code></pre>
   </li>
-  <li><strong>Integrációs tesztek (Supertest):</strong>
-    <pre><code>❯ npm run test:integration</code></pre>
-  </li>
-  <li><strong>End-to-end tesztek (Selenium):</strong>
-    <pre><code>❯ npm run test:e2e</code></pre>
-  </li>
-</ul>
-
-<hr>
-
-<!-- TOVÁBBI INFORMÁCIÓK -->
-
-<h2>További információk</h2>
-
-<p>Ha hibát találsz vagy javaslatod van, nyiss egy <a href="https://github.com/DubleczBence/optify_localhost/issues">Issue-t</a> a GitHub repón.</p>
-
-<p>📬 <strong>Kapcsolat:</strong> dublecz.bence@student.uni-neumann.hu<br>
-📁 <strong>Licenc:</strong> MIT<br>
-📢 <strong>Készült a Neumann János Egyetem, GAMF kar fejlesztő és tesztelő képzés keretében.</strong></p>
-
-<hr>
-
-<!-- KÖZREMŰKÖDŐK -->
-
-<h2>Közreműködők</h2>
-<ul>
-  <li>👨‍💻 <strong>Dublecz Bence</strong> – Frontend és backend fejlesztés, dokumentáció</li>
-  <li>🎓 Szoftverfejlesztő és tesztelő hallgató</li>
 </ul>
 
 <hr>
@@ -163,20 +150,18 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 
 <h2>Képernyőképek</h2>
 
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/screen1.png" alt="Kérdőívkészítő felület" width="600"><br><br>
-<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/docs/screenshots/screen2.png" alt="Statisztikai nézet" width="600">
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-after-login.png" alt="Céges felület" width="600"><br><br>
+<img src="https://raw.githubusercontent.com/DubleczBence/optify_localhost/main/screenshots/company-survey-create-survey-page.png" alt="Kérdőív létrehozása" width="600">
 
 <hr>
 
-<!-- KÖSZÖNETNYILVÁNÍTÁS -->
+<!-- KÖZREMŰKÖDŐK -->
 
-<h2>Köszönetnyilvánítás</h2>
+<h2>Készítette:</h2>
+<ul>
+  <li> <strong>Jakab Áron</strong>, <strong>Dublecz Bence</strong> </li>
+</ul>
 
-<p>Köszönet minden oktatónak, aki támogatta a projekt létrejöttét!<br>
-Külön elismerés illeti a nyílt forráskódú közösséget, akik eszközeikkel segítették a munkát.</p>
+<hr>
 
-<br>
-
-<div align="center">
-  Készült ❤️-ből a fejlesztői közösségnek.
-</div>
+<div align="left"><a href="#top">⬆ Return</a></div>
