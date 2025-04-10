@@ -37,12 +37,13 @@
 ## Tartalomjegyzék
 
 - [Áttekintés](#áttekintés)
+-  [Funkciók](#funkciók)
 - [Első lépések](#első-lépések)
     - [Előfeltételek](#előfeltételek)
     - [Telepítés](#telepítés)
     - [Használat](#használat)
     - [Tesztelés](#tesztelés)
-- [Funkciók](#funkciók)
+
 
 ---
 
