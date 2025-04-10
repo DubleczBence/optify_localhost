@@ -1,74 +1,159 @@
-# Getting Started with Create React App
+<div id="top">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<!-- HEADER STYLE: CLASSIC -->
+<div align="center">
 
-## Available Scripts
 
-In the project directory, you can run:
+# OPTIFY_LOCALHOST
 
-### `npm start`
+<em>Empower Your Surveys, Elevate User Engagement Effortlessly</em>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+<!-- BADGES -->
+<img src="https://img.shields.io/github/license/DubleczBence/optify_localhost?style=flat&logo=opensourceinitiative&logoColor=white&color=0080ff" alt="license">
+<img src="https://img.shields.io/github/last-commit/DubleczBence/optify_localhost?style=flat&logo=git&logoColor=white&color=0080ff" alt="last-commit">
+<img src="https://img.shields.io/github/languages/top/DubleczBence/optify_localhost?style=flat&color=0080ff" alt="repo-top-language">
+<img src="https://img.shields.io/github/languages/count/DubleczBence/optify_localhost?style=flat&color=0080ff" alt="repo-language-count">
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<em>Built with the tools and technologies:</em>
 
-### `npm test`
+<img src="https://img.shields.io/badge/Express-000000.svg?style=flat&logo=Express&logoColor=white" alt="Express">
+<img src="https://img.shields.io/badge/JSON-000000.svg?style=flat&logo=JSON&logoColor=white" alt="JSON">
+<img src="https://img.shields.io/badge/npm-CB3837.svg?style=flat&logo=npm&logoColor=white" alt="npm">
+<img src="https://img.shields.io/badge/Firebase-DD2C00.svg?style=flat&logo=Firebase&logoColor=white" alt="Firebase">
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=flat&logo=JavaScript&logoColor=black" alt="JavaScript">
+<img src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&logo=React&logoColor=black" alt="React">
+<br>
+<img src="https://img.shields.io/badge/MySQL-4479A1.svg?style=flat&logo=MySQL&logoColor=white" alt="MySQL">
+<img src="https://img.shields.io/badge/Docker-2496ED.svg?style=flat&logo=Docker&logoColor=white" alt="Docker">
+<img src="https://img.shields.io/badge/CSS-663399.svg?style=flat&logo=CSS&logoColor=white" alt="CSS">
+<img src="https://img.shields.io/badge/datefns-770C56.svg?style=flat&logo=date-fns&logoColor=white" alt="datefns">
+<img src="https://img.shields.io/badge/Chart.js-FF6384.svg?style=flat&logo=chartdotjs&logoColor=white" alt="Chart.js">
+<img src="https://img.shields.io/badge/Jest-C21325.svg?style=flat&logo=Jest&logoColor=white" alt="Jest">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+</div>
+<br>
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Table of Contents
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [Overview](#overview)
+- [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Testing](#testing)
+- [Features](#features)
+- [Project Structure](#project-structure)
+    - [Project Index](#project-index)
+- [Roadmap](#roadmap)
+- [License](#license)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Overview
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Optify_localhost is a powerful developer tool that simplifies the creation and management of survey applications, combining a robust backend with an interactive frontend for seamless development.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Why optify_localhost?**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+This project aims to streamline the setup and enhance the user experience of survey applications. The core features include:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- 🎛️ **Local Database Setup:** Quickly establish a local database environment with minimal configuration.
+- 🚀 **React Application Structure:** Leverage a well-defined architecture for efficient development and deployment.
+- 📊 **Real-time Data Interaction:** Engage users with dynamic data visualizations and responsive components.
+- 🔐 **User Authentication:** Simplify user management with secure sign-up and sign-in processes.
+- 🎨 **Customizable UI:** Create a visually appealing interface that adapts to user preferences.
+- 🔗 **Robust API Integration:** Ensure seamless communication between client and server for efficient data handling.
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Features
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+|      | Component       | Details                              |
+| :--- | :-------------- | :----------------------------------- |
+| ⚙️  | **Architecture**  | <ul><li>Microservices architecture</li><li>Frontend (React) and Backend (Node.js)</li><li>RESTful API design</li></ul> |
+| 🔩 | **Code Quality**  | <ul><li>ESLint for JavaScript linting</li><li>Prettier for code formatting</li><li>Consistent coding standards</li></ul> |
+| 🔌 | **Integrations**  | <ul><li>Firebase for authentication</li><li>MySQL for database management</li><li>Chart.js and MUI for data visualization</li></ul> |
+| 🧩 | **Modularity**    | <ul><li>Separation of frontend and backend code</li><li>Reusable React components</li><li>Modular backend routes and controllers</li></ul> |
+| 🧪 | **Testing**       | <ul><li>Unit tests with Jest</li><li>Integration tests with Supertest</li><li>End-to-end tests with Selenium WebDriver</li></ul> |
+| ⚡️  | **Performance**   | <ul><li>Optimized React components with React.memo</li><li>Efficient database queries with MySQL</li><li>Lazy loading for images and components</li></ul> |
+| 🛡️ | **Security**      | <ul><li>JWT for secure authentication</li><li>Input validation with express-validator</li><li>Environment variables for sensitive data</li></ul> |
+| 📦 | **Dependencies**  | <ul><li>React, React Router, and MUI for frontend</li><li>Express, MySQL, and bcrypt for backend</li><li>Testing libraries: Jest, Testing Library</li></ul> |
+| 🚀 | **Scalability**   | <ul><li>Docker for containerization</li><li>Microservices architecture allows independent scaling</li><li>Load balancing strategies can be implemented</li></ul> |
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Getting Started
 
-### Analyzing the Bundle Size
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+This project requires the following dependencies:
 
-### Making a Progressive Web App
+- **Programming Language:** JavaScript
+- **Package Manager:** Npm
+- **Container Runtime:** Docker
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Installation
 
-### Advanced Configuration
+Build optify_localhost from the source and intsall dependencies:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+1. **Clone the repository:**
 
-### Deployment
+    ```sh
+    ❯ git clone https://github.com/DubleczBence/optify_localhost
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+2. **Navigate to the project directory:**
 
-### `npm run build` fails to minify
+    ```sh
+    ❯ cd optify_localhost
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-"# survey" 
-"# ploba" 
-"# ploba" 
-"# optify_localhost" 
+3. **Install the dependencies:**
+
+**Using [docker](https://www.docker.com/):**
+
+```sh
+❯ docker build -t DubleczBence/optify_localhost .
+```
+**Using [npm](https://www.npmjs.com/):**
+
+```sh
+❯ npm install
+```
+
+### Usage
+
+Run the project with:
+
+**Using [docker](https://www.docker.com/):**
+
+```sh
+docker run -it {image_name}
+```
+**Using [npm](https://www.npmjs.com/):**
+
+```sh
+npm start
+```
+
+### Testing
+
+Optify_localhost uses the {__test_framework__} test framework. Run the test suite with:
+
+**Using [docker](https://www.docker.com/):**
+
+```sh
+echo 'INSERT-TEST-COMMAND-HERE'
+```
+**Using [npm](https://www.npmjs.com/):**
+
+```sh
+npm test
+```
+---
+
+<div align="left"><a href="#top">⬆ Return</a></div>
+
+---
