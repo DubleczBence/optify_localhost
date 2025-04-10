@@ -110,7 +110,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
     <pre><code>❯ npm install</code></pre>
   </li>
   <li><strong>Indítsd el a szervert:</strong>
-    <pre><code>❯ node app.js</code></pre>
+    <pre><code>❯ cd backend</code></pre><pre><code>❯ node app.js</code></pre>
   </li>
 </ol>
 
