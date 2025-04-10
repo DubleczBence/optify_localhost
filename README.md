@@ -135,7 +135,7 @@ A projekt célja, hogy leegyszerűsítse a telepítést és javítsa a felhaszn�
 <h3>Tesztelés</h3>
 <p>A következő parancsal tudod futtatni a teszteket:</p>
 <ul>
-  <li><strong>Egységtesztek:</strong>
+  <li><strong>Frontend és Backend:</strong>
     <pre><code>❯ npm test</code></pre>
   </li>
 </ul>
